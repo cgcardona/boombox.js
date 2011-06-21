@@ -1,12 +1,12 @@
 /*
-* boombox.js JavaScript Library v0.1.1
-* https://audiofile.cc/index.php/boombox
+* boombox.js JavaScript Library v0.1.2
+* https://audiofile.cc/boombox
 * 
 * Copyright 2011, Carlos Cardona 
 * Released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
 * 
-* Date: Sun. June 19 2011 
+* Date: Mon. June 20 2011 
 */
 $(document).ready(function() {
   $("#playbutton").click(function() {
@@ -37,6 +37,15 @@ $(document).ready(function() {
   BOOMBOX.playing = false;
   BOOMBOX.titles = [];
   BOOMBOX.songPaths = [];
+  BOOMBOX.codec;
+  // Detect if the browser supports .mp3 or .ogg and set BOOMBOX.codec accordingly
+  // HTML5 feature detection from http://diveintohtml5.org/everything.html 
+  var a = document.createElement('audio');
+  if (!!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''))) {
+    BOOMBOX.codec = ".mp3";
+  } else if (!!(a.canPlayType && a.canPlayType('audio/ogg; codecs="vorbis"').replace(/no/, ''))) {
+    BOOMBOX.codec = ".ogg";
+  }
   BOOMBOX.methods = {
 init : function( options ) {
 	var settings = {};
@@ -65,7 +74,7 @@ play : function() {
   if (BOOMBOX.currentTime === 0) {
     BOOMBOX.counter = +($("#counter").text() - 1);
     BOOMBOX.track = BOOMBOX.songPaths[BOOMBOX.counter];
-    BOOMBOX.song.src = BOOMBOX.track;
+    BOOMBOX.song.src = BOOMBOX.track + BOOMBOX.codec;
     BOOMBOX.song.play();
   } else {
     BOOMBOX.song.currentTime = BOOMBOX.currentTime;
