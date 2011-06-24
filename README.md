@@ -1,7 +1,7 @@
 Boombox.js Overview
 ===================
 
-HTML5 introduces the <code>*lt;audio&gt;</code> element which offers a way to play audio natively
+HTML5 introduces the <code>&lt;audio&gt;</code> element which offers a way to play audio natively
 in the browser. However the native controls are a little lacking in style.
 Thankfully HTML5 also brings a full api to interact with which allows us to skin
 an Audio object however we want.
@@ -15,8 +15,10 @@ that can be easily skinned and extended.
 Get a modern browser
 --------------------
 
-First things first—make sure you’re running a modern browser. My favorite is
+First things first—make sure you&rsquo;re running a modern browser. My favorite is
 [Chrome](http://www.google.com/chrome) but [Safari](http://www.apple.com/safari/download/), [Opera](http://www.opera.com/mobile/download/versions/), [Firefox](http://www.mozilla.com/en-US/firefox/new/), or even [IE9](http://windows.microsoft.com/en-US/internet-explorer/downloads/ie-9/worldwide-languages) will also do. 
+
+Let me repeat that&mdash;*_this app works in ALL major modern browsers_*.
 
 Including jQuery & boombox.js
 -----------------------------
@@ -34,7 +36,7 @@ them in your HTML <code>&lt;head&gt;</code> section.
 Include the buttons
 -------------------
 
-You’ll need buttons in order to control the boombox. Add these buttons that are
+You&rsquo;ll need buttons in order to control the boombox. Add these buttons that are
 nested within a <code>&lt;div id="boombox"&lt;</code>.
 
 <code><pre>
@@ -46,7 +48,7 @@ nested within a <code>&lt;div id="boombox"&lt;</code>.
       &lt;button id="next" class="slick-black boombox"&gt;Next&lt;/button&gt; 
       &lt;button id="volumedownbutton" class="slick-black boombox"&gt;Volume Down&lt;/button&gt; 
       &lt;button id="volumeupbutton" class="slick-black boombox"&gt;Volume Up&lt;/button&gt; 
-&lt;/div&gt;&lt;
+&lt;/div&gt;
 </pre></code>
 
 Create a boombox
@@ -56,6 +58,7 @@ Use jQuery to grab <code>&lt;div id="boombox"&gt;</code> and call the boombox me
   an object literal of songs to play. The keys should be the title you would
   like to appear on the screen and the value should be a path to the audiofiles.
 
+<code><pre>
 &lt;script&gt; 
   $(document).ready(function() {
     $("#boombox").boombox({
@@ -64,8 +67,9 @@ Use jQuery to grab <code>&lt;div id="boombox"&gt;</code> and call the boombox me
     });
   });
 &lt;/script&gt; 
+</pre></code>
 
-You’ll notice above that the song paths don’t have a file extension. That is
+You&rsquo;ll notice above that the song paths don&rsquo;t have a file extension. That is
 because boombox detects what codec the browser supports and serves up the
 correct file. As a developer you need to encode your audiofiles once as .mp3 and
 once as .ogg and put the path to those files in the object literal that is
@@ -77,7 +81,7 @@ to work on a per browser basis.
 Mime Type
 ---------
 
-To get Firefox to recognize the .ogg file type correctly you will need to add
+To get Firefox to recognize the .ogg file type correctly you&rsquo;ll need to add
 this one line to the .htaccess file on the server that is serving up the
 audiofiles.
 
