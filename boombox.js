@@ -1,33 +1,13 @@
 /*
-* boombox.js JavaScript Library v0.1.2
+* boombox.js JavaScript Library v0.1.3
 * https://audiofile.cc/boombox
 * 
 * Copyright 2011, Carlos Cardona 
 * Released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
 * 
-* Date: Mon. June 20 2011 
+* Date: Sat. June 25 2011 
 */
-$(document).ready(function() {
-  $("#playbutton").click(function() {
-    $("#boombox").boombox("play");  
-  });
-  $("#pausebutton").click(function() {
-    $("#boombox").boombox("pause");  
-  });
-  $("#volumeupbutton").click(function() {
-    $("#boombox").boombox("volumeup");  
-  });
-  $("#volumedownbutton").click(function() {
-    $("#boombox").boombox("volumedown");  
-  });
-  $("#next").click(function(){
-    $("#boombox").boombox("next");  
-  });
-  $("#prev").click(function(){
-    $("#boombox").boombox("prev");  
-  });
-});
 (function( $ ){
  // Create a global BOOMBOX object to hold all of the global vars.
   var BOOMBOX = {};
@@ -49,6 +29,24 @@ $(document).ready(function() {
   BOOMBOX.methods = {
 init : function( options ) {
 	var settings = {};
+  $("#boomboxPlayBtn").click(function() {
+    $("#boombox").boombox("play");  
+  });
+  $("#boomboxPauseBtn").click(function() {
+    $("#boombox").boombox("pause");  
+  });
+  $("#boomboxVolumeUpBtn").click(function() {
+    $("#boombox").boombox("volumeup");  
+  });
+  $("#boomboxVolumeDownBtn").click(function() {
+    $("#boombox").boombox("volumedown");  
+  });
+  $("#boomboxNextBtn").click(function(){
+    $("#boombox").boombox("next");  
+  });
+  $("#boomboxPreviousBtn").click(function(){
+    $("#boombox").boombox("prev");  
+  });
   return this.each(function() {        
       // If options exist, lets merge them
       // with our default settings
@@ -67,12 +65,12 @@ init : function( options ) {
     }
 
     BOOMBOX.songTitle = BOOMBOX.titles[0];
-    $("#trackName").text(BOOMBOX.songTitle);
+    $("#boomboxTrackName").text(BOOMBOX.songTitle);
   }); 
 },
 play : function() {
   if (BOOMBOX.currentTime === 0) {
-    BOOMBOX.counter = +($("#counter").text() - 1);
+    BOOMBOX.counter = +($("#boomboxCounter").text() - 1);
     BOOMBOX.track = BOOMBOX.songPaths[BOOMBOX.counter];
     BOOMBOX.song.src = BOOMBOX.track + BOOMBOX.codec;
     BOOMBOX.song.play();
@@ -88,28 +86,28 @@ pause : function() {
 next : function() {
   BOOMBOX.song.pause();
   BOOMBOX.currentTime = 0;
-  BOOMBOX.beforeValue = $("#counter").text();
+  BOOMBOX.beforeValue = $("#boomboxCounter").text();
   BOOMBOX.afterValue = +(BOOMBOX.beforeValue + 1);
   BOOMBOX.counter = BOOMBOX.songPaths.length;
-  BOOMBOX.songTitle = $("#counter").text();
-  $("#trackName").text(BOOMBOX.titles[BOOMBOX.songTitle]);
+  BOOMBOX.songTitle = $("#boomboxCounter").text();
+  $("#boomboxTrackName").text(BOOMBOX.titles[BOOMBOX.songTitle]);
   if (BOOMBOX.afterValue >= BOOMBOX.counter) {
     BOOMBOX.afterValue = BOOMBOX.counter; 
   }
-  $("#counter").text(BOOMBOX.afterValue);
+  $("#boomboxCounter").text(BOOMBOX.afterValue);
 },
 prev : function() {
   BOOMBOX.song.pause();
   BOOMBOX.currentTime = 0;
-  BOOMBOX.beforeValue = $("#counter").text();
+  BOOMBOX.beforeValue = $("#boomboxCounter").text();
   BOOMBOX.afterValue = +(BOOMBOX.beforeValue - 1);
   BOOMBOX.counter = BOOMBOX.songPaths.length;
   if (BOOMBOX.afterValue <= 1) {
     BOOMBOX.afterValue = 1; 
   }
-  $("#counter").text(BOOMBOX.afterValue);
-  BOOMBOX.songTitle = +($("#counter").text() - 1);
-  $("#trackName").text(BOOMBOX.titles[BOOMBOX.songTitle]);
+  $("#boomboxCounter").text(BOOMBOX.afterValue);
+  BOOMBOX.songTitle = +($("#boomboxCounter").text() - 1);
+  $("#boomboxTrackName").text(BOOMBOX.titles[BOOMBOX.songTitle]);
 },
 volumeup : function() {
   BOOMBOX.currentVolume = BOOMBOX.song.volume;
