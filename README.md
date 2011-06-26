@@ -41,13 +41,13 @@ nested within a <code>&lt;div id="boombox"&lt;</code>.
 
 <code><pre>
 &lt;div id="boombox"&gt; 
-      &lt;div&gt;&lt;span id="counter"&gt;1&lt;/span&gt; &lt;span id="trackName"&gt;&lt;/span&gt;&lt;/div&gt; 
-      &lt;button id="playbutton" class="slick-black boombox"&gt;Play&lt;/button&gt; 
-      &lt;button id="pausebutton" class="slick-black boombox"&gt;Pause&lt;/button&gt; 
-      &lt;button id="prev" class="slick-black boombox"&gt;Previous&lt;/button&gt; 
-      &lt;button id="next" class="slick-black boombox"&gt;Next&lt;/button&gt; 
-      &lt;button id="volumedownbutton" class="slick-black boombox"&gt;Volume Down&lt;/button&gt; 
-      &lt;button id="volumeupbutton" class="slick-black boombox"&gt;Volume Up&lt;/button&gt; 
+      &lt;div&gt;&lt;span id="boomboxCounter"&gt;1&lt;/span&gt; &lt;span id="boomboxTrackName"&gt;&lt;/span&gt;&lt;/div&gt; 
+      &lt;button id="boomboxPlayBtn" class="slick-black boombox"&gt;Play&lt;/button&gt; 
+      &lt;button id="boomboxPauseBtn" class="slick-black boombox"&gt;Pause&lt;/button&gt; 
+      &lt;button id="boomboxPreviousBtn" class="slick-black boombox"&gt;Previous&lt;/button&gt; 
+      &lt;button id="boomboxNextBtn" class="slick-black boombox"&gt;Next&lt;/button&gt; 
+      &lt;button id="boomboxVolumeDownBtn" class="slick-black boombox"&gt;Volume Down&lt;/button&gt; 
+      &lt;button id="boomboxVolumeUpBtn" class="slick-black boombox"&gt;Volume Up&lt;/button&gt; 
 &lt;/div&gt;
 </pre></code>
 
