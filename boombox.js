@@ -1,12 +1,27 @@
 /*
-* boombox.js JavaScript Library v0.1.3
+* boombox.js JavaScript Library v0.1.4
 * https://audiofile.cc/boombox
 * 
 * Copyright 2011, Carlos Cardona 
 * Released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
 * 
-* Date: Sat. June 25 2011 
+* Date: Sun. June 26 2011 
+*     ,---,.                               ____                                                             
+*  ,'  .'  \                            ,'  , `.  ,---,                                                    
+*,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                        .--.             
+*|   |  |: |  '   ,'\   '   ,'\   ,-+-. ;   , |||   | :     '   ,'\ ,--,  ,--,          .--,`|  .--.--.    
+*:   :  :  / /   /   | /   /   | ,--.'|'   |  ||:   : :    /   /   ||'. \/ .`|          |  |.  /  /    '   
+*:   |    ; .   ; ,. :.   ; ,. :|   |  ,', |  |,:     |,-..   ; ,. :'  \/  / ;          '--`_ |  :  /`./   
+*|   :     \'   | |: :'   | |: :|   | /  | |--' |   : '  |'   | |: : \  \.' /           ,--,'||  :  ;_     
+*|   |   . |'   | .; :'   | .; :|   : |  | ,    |   |  / :'   | .; :  \  ;  ;           |  | ' \  \    `.  
+*'   :  '; ||   :    ||   :    ||   : |  |/     '   : |: ||   :    | / \  \  \          :  | |  `----.   \ 
+*|   |  | ;  \   \  /  \   \  / |   | |`-'      |   | '/ : \   \  /./__;   ;  \ ___   __|  : ' /  /`--'  / 
+*|   :   /    `----'    `----'  |   ;/          |   :    |  `----' |   :/\  \ ;/  .\.'__/\_: |'--'.     /  
+*|   | ,'                       '---'           /    \  /          `---'  `--` \  ; |   :    :  `--'---'   
+*`----'                                         `-'----'                        `--" \   \  /              
+*                                                                                     `--`-'
+* ASCII art created with http://patorjk.com/software/taag/            
 */
 (function( $ ){
  // Create a global BOOMBOX object to hold all of the global vars.

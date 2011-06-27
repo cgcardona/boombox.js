@@ -94,6 +94,8 @@ Carlos Cardona 2011
 
 All software is available free as in speech and free as in pizza under the [MIT Open Source License](http://www.opensource.org/licenses/mit-license.php).
 
-For more information and examples please see [Audiofile.cc](https://audiofile.cc/boombox)
-and follow [cgcardona](http://twitter.com/cgcardona)
+For more information and examples please see [Audiofile.cc/boombox](https://audiofile.cc/boombox)
+and follow [cgcardona](http://twitter.com/cgcardona).
+
+For more projects by Audiofile please check out [Audiofile.cc](https://audiofile.cc).
 
