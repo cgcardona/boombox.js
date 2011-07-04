@@ -1,12 +1,12 @@
 /*
-* boombox.js JavaScript Library v0.1.4
+* boombox.js JavaScript Library v0.1.5
 * https://audiofile.cc/boombox
 * 
 * Copyright 2011, Carlos Cardona 
 * Released under the MIT License.
 * http://www.opensource.org/licenses/mit-license.php
 * 
-* Date: Sun. June 26 2011 
+* Date: Mon. July 4 2011 
 *     ,---,.                               ____                                                             
 *  ,'  .'  \                            ,'  , `.  ,---,                                                    
 *,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                        .--.             
@@ -102,7 +102,9 @@ next : function() {
   BOOMBOX.song.pause();
   BOOMBOX.currentTime = 0;
   BOOMBOX.beforeValue = $("#boomboxCounter").text();
-  BOOMBOX.afterValue = +(BOOMBOX.beforeValue + 1);
+  console.log(BOOMBOX.beforeValue);
+  BOOMBOX.afterValue = (+BOOMBOX.beforeValue) + 1;
+  console.log(BOOMBOX.afterValue);
   BOOMBOX.counter = BOOMBOX.songPaths.length;
   BOOMBOX.songTitle = $("#boomboxCounter").text();
   $("#boomboxTrackName").text(BOOMBOX.titles[BOOMBOX.songTitle]);
