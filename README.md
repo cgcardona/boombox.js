@@ -36,11 +36,7 @@ them in your HTML <code>&lt;head&gt;</code> section.
 Include the buttons
 -------------------
 
-You&rsquo;ll need buttons in order to control the boombox. Add these buttons that are
-nested within a <code>&lt;div id="boombox"&lt;</code>.
-
-In theory you could have as boomboxes on a page as you wish. For each one you'll
-need to provide the following markup.
+In theory you could have as boomboxes on a page as you wish. For each one you'll need to provide the following markup.
 
 <code><pre>
 &lt;div id="boombox"&gt; 
@@ -59,11 +55,9 @@ Create a boombox
 
 To create a new boombox simply call
 
-<code><pre>
-new Boombox(//arguments);
-</pre></code>
+    new Boombox(//arguments);
 
-Use jQuery to grab <code>&lt;div id="boombox"&gt;</code> and call the boombox method on it. Pass in
+Use jQuery to grab `&lt;div id="boombox"&gt;` and call the boombox method on it. Pass in
   an object literal of songs to play. The keys should be the title you would
   like to appear on the screen and the value should be a path to the audiofiles.
 
