@@ -1,7 +1,7 @@
 Boombox.js 
 ==========
 
-HTML5 introduces the <code>&lt;audio&gt;</code> element which offers a way to play audio natively
+HTML5 introduces the `<audio>` element which offers a way to play audio natively
 in the browser. However the native controls are a little lacking in style.
 Thankfully HTML5 also brings a full api to interact with which allows us to skin
 an Audio object however we want.
@@ -72,19 +72,16 @@ correct file. As a developer you need to encode your audiofiles once as .mp3 and
 once as .ogg and put the path to those files in the object literal that is
 passed into the boombox function.
 
-Remember to not use the file extensions because those will be added by boombox()
-to work on a per browser basis. 
+Remember to not use the file extensions because those will be added by boombox() to work on a per browser basis. 
 
 Mime Type
 ---------
 
-To get Firefox to recognize the .ogg file type correctly you&rsquo;ll need to add
-this one line to the .htaccess file on the server that is serving up the
-audiofiles.
+To get Firefox to recognize the .ogg file type correctly you&rsquo;ll need to add this one line to the .htaccess file on the server that is serving up the audiofiles.
 
     AddType audio/ogg .ogg
 
-Carlos Cardona 2011
+Carlos Cardona 2011&en;2012
 -------------------
 
 All software is available free as in speech and free as in pizza under the [MIT Open Source License](http://www.opensource.org/licenses/mit-license.php).
