@@ -34,7 +34,9 @@ them in your HTML `<head>` section.
 Include the buttons
 -------------------
 
-In theory you could have as boomboxes on a page as you wish. For each one you'll need to provide the following markup.
+In theory you could have as boomboxes on a page as you wish. For each one you'll
+need to provide the following markup. Make sure that you wrap each group of
+buttons in a div with a unique id. You'll be using that unique id in the next step.
 
     <div id="boombox"> 
           <div><span class="boomboxCounter">1</span> <span class="boomboxTrackName"></span></div> 
@@ -53,26 +55,33 @@ To create a new boombox simply call
 
     new Boombox(//arguments);
 
-Use jQuery to grab `<div id="boombox">` and call the boombox method on it. Pass in
-  an object literal of songs to play. The keys should be the title you would
-  like to appear on the screen and the value should be a path to the audiofiles.
+The Boombox constructor takes an object literal of tracks and configuration
+values.
 
     <script> 
-      $(document).ready(function() {
-        $("#boombox").boombox({
-          'All is Illusion' : '../music/allisillusion',  
-          'Grace' : '../music/grace'  
-        });
-      });
+    new Boombox(
+      tracks : {
+        'Blasting Laser Fire' : './music/BlastingLaserFire',
+        'Ultra Drop' : './music/UltraDrop'
+      },
+      configs : {
+        container : '#boombox',
+        autoplay : false 
+      }
+    );
     </script> 
 
-You&rsquo;ll notice above that the song paths don&rsquo;t have a file extension. That is
+Notice the object literal being passed into the Boombox constructor has two
+properties which are themselves objects&mdash;tracks and configs.
+
+The titles and paths for the audio tracks go in the `tracks` object. The audiotrack paths don&rsquo;t have a file extension.  That&rsquo;s
 because boombox detects what codec the browser supports and serves up the
 correct file. As a developer you need to encode your audiofiles once as .mp3 and
 once as .ogg and put the path to those files in the object literal that is
 passed into the boombox function.
 
-Remember to not use the file extensions because those will be added by boombox() to work on a per browser basis. 
+In the configs object you put the id of the container div for this boombox as
+well as a boolean value which triggers autoplay.
 
 Mime Type
 ---------
