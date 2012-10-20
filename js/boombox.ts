@@ -6,7 +6,7 @@
  * Released under the MIT License.
  * http://www.opensource.org/licenses/mit-license.php
  * 
- * Date: Sat. Oct 20 20122
+ * Date: Sat. Oct 20 2012
  
  *    ,---,.                               ____                                                             
  *  ,'  .'  \                            ,'  , `.  ,---,                                                    
