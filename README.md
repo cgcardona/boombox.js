@@ -24,31 +24,27 @@ Including jQuery & boombox.js
 -----------------------------
 
 Next grab the latest copy of [jQuery](http://code.jquery.com/jquery-latest.js) and [boombox.js](https://raw.github.com/cgcardona/boombox.js/master/js/boombox.js) and include a link to both of
-them in your HTML <code>&lt;head&gt;</code> section.
+them in your HTML `&lt;head&gt;` section.
 
-<code><pre>
-&lt;head&gt;
-     &lt;script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"&gt;&lt;/script&gt;
-     &lt;script src="js/boombox.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;/head&gt;
-</pre></code>
+    &lt;head&gt;
+         &lt;script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"&gt;&lt;/script&gt;
+         &lt;script src="js/boombox.js" type="text/javascript"&gt;&lt;/script&gt;
+    &lt;/head&gt;
 
 Include the buttons
 -------------------
 
 In theory you could have as boomboxes on a page as you wish. For each one you'll need to provide the following markup.
 
-<code><pre>
-&lt;div id="boombox"&gt; 
-      &lt;div&gt;&lt;span class="boomboxCounter"&gt;1&lt;/span&gt; &lt;span class="boomboxTrackName"&gt;&lt;/span&gt;&lt;/div&gt; 
-      &lt;button class="boomboxPlayBtn slick-black boombox"&gt;Play&lt;/button&gt; 
-      &lt;button class="boomboxPauseBtn slick-black boombox"&gt;Pause&lt;/button&gt; 
-      &lt;button class="boomboxPreviousBtn slick-black boombox"&gt;Previous&lt;/button&gt; 
-      &lt;button class="boomboxNextBtn slick-black boombox"&gt;Next&lt;/button&gt; 
-      &lt;button class="boomboxVolumeDownBtn slick-black boombox"&gt;Volume Down&lt;/button&gt; 
-      &lt;button class="boomboxVolumeUpBtn slick-black boombox"&gt;Volume Up&lt;/button&gt; 
-&lt;/div&gt;
-</pre></code>
+    &lt;div id="boombox"&gt; 
+          &lt;div&gt;&lt;span class="boomboxCounter"&gt;1&lt;/span&gt; &lt;span class="boomboxTrackName"&gt;&lt;/span&gt;&lt;/div&gt; 
+          &lt;button class="boomboxPlayBtn slick-black boombox"&gt;Play&lt;/button&gt; 
+          &lt;button class="boomboxPauseBtn slick-black boombox"&gt;Pause&lt;/button&gt; 
+          &lt;button class="boomboxPreviousBtn slick-black boombox"&gt;Previous&lt;/button&gt; 
+          &lt;button class="boomboxNextBtn slick-black boombox"&gt;Next&lt;/button&gt; 
+          &lt;button class="boomboxVolumeDownBtn slick-black boombox"&gt;Volume Down&lt;/button&gt; 
+          &lt;button class="boomboxVolumeUpBtn slick-black boombox"&gt;Volume Up&lt;/button&gt; 
+    &lt;/div&gt;
 
 Create a boombox
 ----------------
@@ -61,16 +57,14 @@ Use jQuery to grab `&lt;div id="boombox"&gt;` and call the boombox method on it.
   an object literal of songs to play. The keys should be the title you would
   like to appear on the screen and the value should be a path to the audiofiles.
 
-<code><pre>
-&lt;script&gt; 
-  $(document).ready(function() {
-    $("#boombox").boombox({
-      'All is Illusion' : '../music/allisillusion',  
-      'Grace' : '../music/grace'  
-    });
-  });
-&lt;/script&gt; 
-</pre></code>
+    &lt;script&gt; 
+      $(document).ready(function() {
+        $("#boombox").boombox({
+          'All is Illusion' : '../music/allisillusion',  
+          'Grace' : '../music/grace'  
+        });
+      });
+    &lt;/script&gt; 
 
 You&rsquo;ll notice above that the song paths don&rsquo;t have a file extension. That is
 because boombox detects what codec the browser supports and serves up the
@@ -88,9 +82,7 @@ To get Firefox to recognize the .ogg file type correctly you&rsquo;ll need to ad
 this one line to the .htaccess file on the server that is serving up the
 audiofiles.
 
-<code><pre>
-  AddType audio/ogg .ogg
-</pre></code>
+    AddType audio/ogg .ogg
 
 Carlos Cardona 2011
 -------------------
