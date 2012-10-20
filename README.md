@@ -36,15 +36,15 @@ Include the buttons
 
 In theory you could have as boomboxes on a page as you wish. For each one you'll need to provide the following markup.
 
-    &lt;div id="boombox"&gt; 
-          &lt;div&gt;&lt;span class="boomboxCounter"&gt;1&lt;/span&gt; &lt;span class="boomboxTrackName"&gt;&lt;/span&gt;&lt;/div&gt; 
-          &lt;button class="boomboxPlayBtn slick-black boombox"&gt;Play&lt;/button&gt; 
-          &lt;button class="boomboxPauseBtn slick-black boombox"&gt;Pause&lt;/button&gt; 
-          &lt;button class="boomboxPreviousBtn slick-black boombox"&gt;Previous&lt;/button&gt; 
-          &lt;button class="boomboxNextBtn slick-black boombox"&gt;Next&lt;/button&gt; 
-          &lt;button class="boomboxVolumeDownBtn slick-black boombox"&gt;Volume Down&lt;/button&gt; 
-          &lt;button class="boomboxVolumeUpBtn slick-black boombox"&gt;Volume Up&lt;/button&gt; 
-    &lt;/div&gt;
+    <div id="boombox"> 
+          <div><span class="boomboxCounter">1</span> <span class="boomboxTrackName"></span></div> 
+          <button class="boomboxPlayBtn slick-black boombox">Play</button> 
+          <button class="boomboxPauseBtn slick-black boombox">Pause</button> 
+          <button class="boomboxPreviousBtn slick-black boombox">Previous</button> 
+          <button class="boomboxNextBtn slick-black boombox">Next</button> 
+          <button class="boomboxVolumeDownBtn slick-black boombox">Volume Down</button> 
+          <button class="boomboxVolumeUpBtn slick-black boombox">Volume Up</button> 
+    </div>
 
 Create a boombox
 ----------------
@@ -53,18 +53,18 @@ To create a new boombox simply call
 
     new Boombox(//arguments);
 
-Use jQuery to grab `&lt;div id="boombox"&gt;` and call the boombox method on it. Pass in
+Use jQuery to grab `<div id="boombox">` and call the boombox method on it. Pass in
   an object literal of songs to play. The keys should be the title you would
   like to appear on the screen and the value should be a path to the audiofiles.
 
-    &lt;script&gt; 
+    <script> 
       $(document).ready(function() {
         $("#boombox").boombox({
           'All is Illusion' : '../music/allisillusion',  
           'Grace' : '../music/grace'  
         });
       });
-    &lt;/script&gt; 
+    </script> 
 
 You&rsquo;ll notice above that the song paths don&rsquo;t have a file extension. That is
 because boombox detects what codec the browser supports and serves up the
