@@ -81,7 +81,7 @@ To get Firefox to recognize the .ogg file type correctly you&rsquo;ll need to ad
 
     AddType audio/ogg .ogg
 
-Carlos Cardona 2011&endash;2012
+Carlos Cardona 2011&ndash;2012
 -------------------
 
 All software is available free as in speech and free as in pizza under the [MIT Open Source License](http://www.opensource.org/licenses/mit-license.php).
