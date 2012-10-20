@@ -24,12 +24,12 @@ Including jQuery & boombox.js
 -----------------------------
 
 Next grab the latest copy of [jQuery](http://code.jquery.com/jquery-latest.js) and [boombox.js](https://raw.github.com/cgcardona/boombox.js/master/js/boombox.js) and include a link to both of
-them in your HTML `&lt;head&gt;` section.
+them in your HTML `<head>` section.
 
-    &lt;head&gt;
-         &lt;script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"&gt;&lt;/script&gt;
-         &lt;script src="js/boombox.js" type="text/javascript"&gt;&lt;/script&gt;
-    &lt;/head&gt;
+    <head>
+      <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+      <script src="js/boombox.js" type="text/javascript"></script>
+    </head>
 
 Include the buttons
 -------------------
