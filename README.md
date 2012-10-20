@@ -23,12 +23,12 @@ Let me repeat that&mdash;*_this app works in ALL major modern browsers_*.
 Including jQuery & boombox.js
 -----------------------------
 
-Next grab the latest copy of jQuery and boombox.js and include a link to both of
+Next grab the latest copy of [jQuery](http://code.jquery.com/jquery-latest.js) and [boombox.js](https://raw.github.com/cgcardona/boombox.js/master/js/boombox.js) and include a link to both of
 them in your HTML <code>&lt;head&gt;</code> section.
 
 <code><pre>
 &lt;head&gt;
-     &lt;script src="js/jquery.js" type="text/javascript"&gt;&lt;/script&gt;
+     &lt;script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"&gt;&lt;/script&gt;
      &lt;script src="js/boombox.js" type="text/javascript"&gt;&lt;/script&gt;
 &lt;/head&gt;
 </pre></code>
@@ -39,20 +39,29 @@ Include the buttons
 You&rsquo;ll need buttons in order to control the boombox. Add these buttons that are
 nested within a <code>&lt;div id="boombox"&lt;</code>.
 
+In theory you could have as boomboxes on a page as you wish. For each one you'll
+need to provide the following markup.
+
 <code><pre>
 &lt;div id="boombox"&gt; 
-      &lt;div&gt;&lt;span id="boomboxCounter"&gt;1&lt;/span&gt; &lt;span id="boomboxTrackName"&gt;&lt;/span&gt;&lt;/div&gt; 
-      &lt;button id="boomboxPlayBtn" class="slick-black boombox"&gt;Play&lt;/button&gt; 
-      &lt;button id="boomboxPauseBtn" class="slick-black boombox"&gt;Pause&lt;/button&gt; 
-      &lt;button id="boomboxPreviousBtn" class="slick-black boombox"&gt;Previous&lt;/button&gt; 
-      &lt;button id="boomboxNextBtn" class="slick-black boombox"&gt;Next&lt;/button&gt; 
-      &lt;button id="boomboxVolumeDownBtn" class="slick-black boombox"&gt;Volume Down&lt;/button&gt; 
-      &lt;button id="boomboxVolumeUpBtn" class="slick-black boombox"&gt;Volume Up&lt;/button&gt; 
+      &lt;div&gt;&lt;span class="boomboxCounter"&gt;1&lt;/span&gt; &lt;span class="boomboxTrackName"&gt;&lt;/span&gt;&lt;/div&gt; 
+      &lt;button class="boomboxPlayBtn slick-black boombox"&gt;Play&lt;/button&gt; 
+      &lt;button class="boomboxPauseBtn slick-black boombox"&gt;Pause&lt;/button&gt; 
+      &lt;button class="boomboxPreviousBtn slick-black boombox"&gt;Previous&lt;/button&gt; 
+      &lt;button class="boomboxNextBtn slick-black boombox"&gt;Next&lt;/button&gt; 
+      &lt;button class="boomboxVolumeDownBtn slick-black boombox"&gt;Volume Down&lt;/button&gt; 
+      &lt;button class="boomboxVolumeUpBtn slick-black boombox"&gt;Volume Up&lt;/button&gt; 
 &lt;/div&gt;
 </pre></code>
 
 Create a boombox
 ----------------
+
+To create a new boombox simply call
+
+<code><pre>
+new Boombox(//arguments);
+</pre></code>
 
 Use jQuery to grab <code>&lt;div id="boombox"&gt;</code> and call the boombox method on it. Pass in
   an object literal of songs to play. The keys should be the title you would
