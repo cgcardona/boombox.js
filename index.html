@@ -1,23 +1,53 @@
-<script src="http://code.jquery.com/jquery-latest.js"></script> 
-<script src="boombox.js"></script> 
-<script>
-    $(document).ready(function() {
-        $("#boombox").boombox({
-            'All is Illusion': 'music/allisillusion',  
-            'Grace': 'music/grace'  
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf8'>
+    <title>Boombox.js</title>
+    <script src="./js/jquery.js"></script> 
+    <script src="./js/boombox.js"></script> 
+    <script>
+        $(document).ready(function() {
+          var foobar = new Boombox({
+            tracks : {
+              'Blasting Laser Fire' : './music/BlastingLaserFire',
+              'Ultra Drop' : './music/UltraDrop'
+            },
+            configs : {
+              container : '#boombox',
+              autoplay : false 
+            }
+          });
+          var bazbar = new Boombox({
+            tracks : {
+              'Blaing ser Fire' : './music/BlastingLaserFire',
+              'Ultra Dr' : './music/UltraDrop'
+            },
+            configs : {
+              container : '#boombox2',
+              autoplay : false 
+            }
+          });
         });
-    });
-</script>
-<div id="right">
-  <div id="writeMarkup">
+    </script>
+  </head>
+  <body>
     <div id="boombox"> 
-      <div><span id="boomboxCounter">1</span> <span id="boomboxTrackName"></span></div> 
-      <button id="boomboxPlayBtn" class="slick-black boombox">Play</button> 
-      <button id="boomboxPauseBtn" class="slick-black boombox">Pause</button> 
-      <button id="boomboxPreviousBtn" class="slick-black boombox">Previous</button> 
-      <button id="boomboxNextBtn" class="slick-black boombox">Next</button> 
-      <button id="boomboxVolumeDownBtn" class="slick-black boombox">Volume Down</button> 
-      <button id="boomboxVolumeUpBtn" class="slick-black boombox">Volume Up</button> 
+      <div><span class="boomboxCounter">1</span> <span class="boomboxTrackName"></span></div> 
+      <button class="boomboxPlayBtn slick-black boombox">Play</button> 
+      <button class="boomboxPauseBtn slick-black boombox">Pause</button> 
+      <button class="boomboxPreviousBtn slick-black boombox">Previous</button> 
+      <button class="boomboxNextBtn slick-black boombox">Next</button> 
+      <button class="boomboxVolumeDownBtn slick-black boombox">Volume Down</button> 
+      <button class="boomboxVolumeUpBtn slick-black boombox">Volume Up</button> 
     </div> 
-  </div>
-</div>
+    <div id="boombox2"> 
+      <div><span class="boomboxCounter">1</span> <span class="boomboxTrackName"></span></div> 
+      <button class="boomboxPlayBtn slick-black boombox">Play</button> 
+      <button class="boomboxPauseBtn slick-black boombox">Pause</button> 
+      <button class="boomboxPreviousBtn slick-black boombox">Previous</button> 
+      <button class="boomboxNextBtn slick-black boombox">Next</button> 
+      <button class="boomboxVolumeDownBtn slick-black boombox">Volume Down</button> 
+      <button class="boomboxVolumeUpBtn slick-black boombox">Volume Up</button> 
+    </div> 
+  </body>
+</html>
