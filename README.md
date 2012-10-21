@@ -34,7 +34,7 @@ them in your HTML `<head>` section.
 Include the buttons
 -------------------
 
-In theory you could have as boomboxes on a page as you wish. For each one you'll
+In theory you could have as many boomboxes on a page as you wish. For each one you'll
 need to provide the following markup. Make sure that you wrap each group of
 buttons in a div with a unique id. You'll be using that unique id in the next step.
 
