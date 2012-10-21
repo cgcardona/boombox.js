@@ -67,17 +67,21 @@ class Boombox{
     var map = {
       'PlayBtn'       : 'play',
       'PauseBtn'      : 'pause',
-      'VolumeUpBtn'   : 'volumeup',
-      'VolumeDownBtn' : 'volumedown',
+      'VolumeUpBtn'   : 'volumeUp',
+      'VolumeDownBtn' : 'volumeDown',
       'NextBtn'       : 'next',
-      'PreviousBtn'   : 'previous'
+      'PreviousBtn'   : 'previous',
+      'MuteBtn'       : 'mute'
     };
 
     var mapKeys = Object.keys(map);
     $(mapKeys).each(function(indx,elmnt){
       $(ctx.settings.configs.container + ' .boombox' + elmnt).each(function(inx,el){
-        $(el).click(function(){
-          ctx[map[elmnt]]();  
+        $(el).click(function(evnt){
+          if(elmnt == 'MuteBtn')
+            ctx[map[elmnt]](evnt.srcElement);  
+          else
+            ctx[map[elmnt]]();  
         });
       });
     });
@@ -140,11 +144,11 @@ class Boombox{
     }
   }
 
-  public volumedown(){
+  public volumeDown(){
     this.adjustVolume('down');
   }
 
-  public volumeup(){
+  public volumeUp(){
     this.adjustVolume('up');
   }
 
@@ -163,6 +167,19 @@ class Boombox{
         this.audioTrack['volume'] = currentVolume;
       else
         this.audioTrack['volume'] = currentVolume - 0.1;
+    }
+  }
+
+  public mute(srcElmnt){
+    if(this.audioTrack['muted'] == true)
+    {
+      this.audioTrack['muted'] = false;
+      $(srcElmnt).text('Mute');
+    }
+    else if(this.audioTrack['muted'] == false)
+    {
+      this.audioTrack['muted'] = true;
+      $(srcElmnt).text('Unmute');
     }
   }
 }

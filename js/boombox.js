@@ -36,16 +36,21 @@ var Boombox = (function () {
         var map = {
             'PlayBtn': 'play',
             'PauseBtn': 'pause',
-            'VolumeUpBtn': 'volumeup',
-            'VolumeDownBtn': 'volumedown',
+            'VolumeUpBtn': 'volumeUp',
+            'VolumeDownBtn': 'volumeDown',
             'NextBtn': 'next',
-            'PreviousBtn': 'previous'
+            'PreviousBtn': 'previous',
+            'MuteBtn': 'mute'
         };
         var mapKeys = Object.keys(map);
         $(mapKeys).each(function (indx, elmnt) {
             $(ctx.settings.configs.container + ' .boombox' + elmnt).each(function (inx, el) {
-                $(el).click(function () {
-                    ctx[map[elmnt]]();
+                $(el).click(function (evnt) {
+                    if(elmnt == 'MuteBtn') {
+                        ctx[map[elmnt]](evnt.srcElement);
+                    } else {
+                        ctx[map[elmnt]]();
+                    }
                 });
             });
         });
@@ -96,10 +101,10 @@ var Boombox = (function () {
             }
         }
     };
-    Boombox.prototype.volumedown = function () {
+    Boombox.prototype.volumeDown = function () {
         this.adjustVolume('down');
     };
-    Boombox.prototype.volumeup = function () {
+    Boombox.prototype.volumeUp = function () {
         this.adjustVolume('up');
     };
     Boombox.prototype.adjustVolume = function (direction) {
@@ -117,6 +122,17 @@ var Boombox = (function () {
                 } else {
                     this.audioTrack['volume'] = currentVolume - 0.1;
                 }
+            }
+        }
+    };
+    Boombox.prototype.mute = function (srcElmnt) {
+        if(this.audioTrack['muted'] == true) {
+            this.audioTrack['muted'] = false;
+            $(srcElmnt).text('Mute');
+        } else {
+            if(this.audioTrack['muted'] == false) {
+                this.audioTrack['muted'] = true;
+                $(srcElmnt).text('Unmute');
             }
         }
     };
