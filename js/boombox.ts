@@ -27,7 +27,6 @@
 'use strict';
 declare var $;
 class Boombox{
-  public track:number       = 1;
   public codec:string       = '.mp3';
   public audioTrack:Object  = new Audio();
   public currentTime:number = 0;
@@ -45,7 +44,7 @@ class Boombox{
     else if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
       this.codec = ".ogg";
 
-      //console.log(this);
+      console.log(this);
       this.init(this);
   }
 
@@ -103,8 +102,7 @@ class Boombox{
     {
       var counterNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
       var songPathCounter = counterNum - 1;
-      this.track = this.audioTrackPaths[songPathCounter.toString()];
-      this.audioTrack['src'] = this.track + this.codec;
+      this.audioTrack['src'] = this.audioTrackPaths[songPathCounter.toString()] + this.codec;
       this.audioTrack['play']();
     } else {
       this.audioTrack['currentTime'] = this.currentTime;

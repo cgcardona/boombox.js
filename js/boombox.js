@@ -1,7 +1,6 @@
 'use strict';
 var Boombox = (function () {
     function Boombox(settings) {
-        this.track = 1;
         this.codec = '.mp3';
         this.audioTrack = new Audio();
         this.currentTime = 0;
@@ -18,6 +17,7 @@ var Boombox = (function () {
                 this.codec = ".ogg";
             }
         }
+        console.log(this);
         this.init(this);
     }
     Boombox.prototype.init = function (ctx) {
@@ -65,8 +65,7 @@ var Boombox = (function () {
         if(this.currentTime === 0) {
             var counterNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
             var songPathCounter = counterNum - 1;
-            this.track = this.audioTrackPaths[songPathCounter.toString()];
-            this.audioTrack['src'] = this.track + this.codec;
+            this.audioTrack['src'] = this.audioTrackPaths[songPathCounter.toString()] + this.codec;
             this.audioTrack['play']();
         } else {
             this.audioTrack['currentTime'] = this.currentTime;
