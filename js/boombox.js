@@ -1,35 +1,9 @@
-/*
- * boombox.js JavaScript Library v0.2.0
- * https://audiofile.cc/boombox
- * 
- * Copyright 2011 - 2012 Carlos Cardona 
- * Released under the MIT License.
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Date: Sat. Oct 20 2012
- 
- *    ,---,.                               ____                                                             
- *  ,'  .'  \                            ,'  , `.  ,---,                                                    
- *,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                        .--.             
- *|   |  |: |  '   ,'\   '   ,'\   ,-+-. ;   , |||   | :     '   ,'\ ,--,  ,--,          .--,`|  .--.--.    
- *:   :  :  / /   /   | /   /   | ,--.'|'   |  ||:   : :    /   /   ||'. \/ .`|          |  |.  /  /    '   
- *:   |    ; .   ; ,. :.   ; ,. :|   |  ,', |  |,:     |,-..   ; ,. :'  \/  / ;          '--`_ |  :  /`./   
- *|   :     \'   | |: :'   | |: :|   | /  | |--' |   : '  |'   | |: : \  \.' /           ,--,'||  :  ;_     
- *|   |   . |'   | .; :'   | .; :|   : |  | ,    |   |  / :'   | .; :  \  ;  ;           |  | ' \  \    `.  
- *'   :  '; ||   :    ||   :    ||   : |  |/     '   : |: ||   :    | / \  \  \          :  | |  `----.   \ 
- *|   |  | ;  \   \  /  \   \  / |   | |`-'      |   | '/ : \   \  /./__;   ;  \ ___   __|  : ' /  /`--'  / 
- *|   :   /    `----'    `----'  |   ;/          |   :    |  `----' |   :/\  \ ;/  .\.'__/\_: |'--'.     /  
- *|   | ,'                       '---'           /    \  /          `---'  `--` \  ; |   :    :  `--'---'   
- *`----'                                         `-'----'                        `--" \   \  /              
- *                                                                                     `--`-'
- * ASCII art created with http://patorjk.com/software/taag/  
- */
 'use strict';
 var Boombox = (function () {
     function Boombox(settings) {
         this.track = 1;
         this.codec = '.mp3';
-        this.song = new Audio();
+        this.audioTrack = new Audio();
         this.currentTime = 0;
         this.playing = false;
         this.titles = [];
@@ -37,10 +11,10 @@ var Boombox = (function () {
         this.settings = {
         };
         this.settings = settings;
-        if(!!(this.song['canPlayType'] && this.song['canPlayType']('audio/mpeg;').replace(/no/, ''))) {
+        if(!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/mpeg;').replace(/no/, ''))) {
             this.codec = ".mp3";
         } else {
-            if(!!(this.song['canPlayType'] && this.song['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, ''))) {
+            if(!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, ''))) {
                 this.codec = ".ogg";
             }
         }
@@ -92,19 +66,19 @@ var Boombox = (function () {
             var counterNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
             var songPathCounter = counterNum - 1;
             this.track = this.songPaths[songPathCounter.toString()];
-            this.song['src'] = this.track + this.codec;
-            this.song['play']();
+            this.audioTrack['src'] = this.track + this.codec;
+            this.audioTrack['play']();
         } else {
-            this.song['currentTime'] = this.currentTime;
-            this.song['play']();
+            this.audioTrack['currentTime'] = this.currentTime;
+            this.audioTrack['play']();
         }
     };
     Boombox.prototype.pause = function () {
-        this.song['pause']();
-        this['currentTime'] = this.song['currentTime'];
+        this.audioTrack['pause']();
+        this['currentTime'] = this.audioTrack['currentTime'];
     };
     Boombox.prototype.prev = function () {
-        this.song['pause']();
+        this.audioTrack['pause']();
         this.currentTime = 0;
         var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
         var afterValue = parseInt(beforeValue, 10) - 1;
@@ -116,7 +90,7 @@ var Boombox = (function () {
         $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.titles[trackNum]);
     };
     Boombox.prototype.next = function () {
-        this.song['pause']();
+        this.audioTrack['pause']();
         this.currentTime = 0;
         var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
         var afterValue = parseInt(beforeValue, 10) + 1;
@@ -129,19 +103,19 @@ var Boombox = (function () {
         $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
     };
     Boombox.prototype.volumedown = function () {
-        var currentVolume = this.song['volume'];
+        var currentVolume = this.audioTrack['volume'];
         if(currentVolume <= 0.1) {
-            this.song['volume'] = currentVolume;
+            this.audioTrack['volume'] = currentVolume;
         } else {
-            this.song['volume'] = currentVolume - 0.1;
+            this.audioTrack['volume'] = currentVolume - 0.1;
         }
     };
     Boombox.prototype.volumeup = function () {
-        var currentVolume = this.song['volume'];
+        var currentVolume = this.audioTrack['volume'];
         if(currentVolume >= 1) {
-            this.song['volume'] = currentVolume;
+            this.audioTrack['volume'] = currentVolume;
         } else {
-            this.song['volume'] = currentVolume + 0.1;
+            this.audioTrack['volume'] = currentVolume + 0.1;
         }
     };
     return Boombox;

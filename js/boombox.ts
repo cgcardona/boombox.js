@@ -29,7 +29,7 @@ declare var $;
 class Boombox{
   public track:number       = 1;
   public codec:string       = '.mp3';
-  public song:Object        = new Audio();
+  public audioTrack:Object  = new Audio();
   public currentTime:number = 0;
   public playing:bool       = false;
   public titles: string[]   = [];
@@ -40,12 +40,13 @@ class Boombox{
 
     // Detect if the browser supports .mp3 or .ogg and set this.codec accordingly
     // HTML5 feature detection from http://diveintohtml5.info/everything.html
-    if (!!(this.song['canPlayType'] && this.song['canPlayType']('audio/mpeg;').replace(/no/, '')))
+    if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/mpeg;').replace(/no/, '')))
       this.codec = ".mp3";
-    else if (!!(this.song['canPlayType'] && this.song['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
+    else if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
       this.codec = ".ogg";
 
-    this.init(this);
+      //console.log(this);
+      this.init(this);
   }
 
   public init(ctx){
@@ -103,21 +104,21 @@ class Boombox{
       var counterNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
       var songPathCounter = counterNum - 1;
       this.track = this.songPaths[songPathCounter.toString()];
-      this.song['src'] = this.track + this.codec;
-      this.song['play']();
+      this.audioTrack['src'] = this.track + this.codec;
+      this.audioTrack['play']();
     } else {
-      this.song['currentTime'] = this.currentTime;
-      this.song['play']();
+      this.audioTrack['currentTime'] = this.currentTime;
+      this.audioTrack['play']();
     }
   }
 
   public pause(){
-    this.song['pause']();
-    this['currentTime'] = this.song['currentTime'];
+    this.audioTrack['pause']();
+    this['currentTime'] = this.audioTrack['currentTime'];
   }
 
   public prev(){
-    this.song['pause']();
+    this.audioTrack['pause']();
     this.currentTime = 0;
     var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
     var afterValue = parseInt(beforeValue, 10) - 1;
@@ -130,7 +131,7 @@ class Boombox{
   }
 
   public next(){
-    this.song['pause']();
+    this.audioTrack['pause']();
     this.currentTime = 0;
     var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
     var afterValue = parseInt(beforeValue, 10) + 1;
@@ -144,18 +145,18 @@ class Boombox{
   }
 
   public volumedown(){
-    var currentVolume = this.song['volume'];
+    var currentVolume = this.audioTrack['volume'];
     if(currentVolume <= 0.1)
-      this.song['volume'] = currentVolume;
+      this.audioTrack['volume'] = currentVolume;
     else
-      this.song['volume'] = currentVolume - 0.1;
+      this.audioTrack['volume'] = currentVolume - 0.1;
   }
 
   public volumeup(){
-    var currentVolume = this.song['volume'];
+    var currentVolume = this.audioTrack['volume'];
     if(currentVolume >= 1)
-      this.song['volume'] = currentVolume;
+      this.audioTrack['volume'] = currentVolume;
     else
-      this.song['volume'] = currentVolume + 0.1;
+      this.audioTrack['volume'] = currentVolume + 0.1;
   }
 }
