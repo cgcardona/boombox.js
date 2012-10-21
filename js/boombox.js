@@ -21,6 +21,18 @@ var Boombox = (function () {
         this.init(this);
     }
     Boombox.prototype.init = function (ctx) {
+        this.attachEventListeners(ctx);
+        Object.keys(ctx.settings.tracks).forEach(function (elmt, inx) {
+            ctx.audioTrackTitles.push(elmt);
+            ctx.audioTrackPaths.push(ctx.settings.tracks[elmt]);
+        });
+        if(ctx.settings.configs.autoplay === true) {
+            this.play();
+        }
+        ctx.currentAudioTrackTitle = ctx.audioTrackTitles[0];
+        $(ctx.settings.configs.container + ' .boomboxTrackName').text(ctx.currentAudioTrackTitle);
+    };
+    Boombox.prototype.attachEventListeners = function (ctx) {
         var map = {
             'PlayBtn': 'play',
             'PauseBtn': 'pause',
@@ -37,15 +49,6 @@ var Boombox = (function () {
                 });
             });
         });
-        Object.keys(ctx.settings.tracks).forEach(function (elmt, inx) {
-            ctx.audioTrackTitles.push(elmt);
-            ctx.audioTrackPaths.push(ctx.settings.tracks[elmt]);
-        });
-        if(ctx.settings.configs.autoplay === true) {
-            this.play();
-        }
-        ctx.currentAudioTrackTitle = ctx.audioTrackTitles[0];
-        $(ctx.settings.configs.container + ' .boomboxTrackName').text(ctx.currentAudioTrackTitle);
     };
     Boombox.prototype.play = function () {
         if(this.currentTime === 0) {

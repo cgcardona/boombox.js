@@ -1,12 +1,12 @@
 /*
- * boombox.ts JavaScript Library v0.1.0
+ * boombox.ts JavaScript Library v0.1.1
  * https://audiofile.cc/boombox
  * 
  * Copyright 2011 - 2012 Carlos Cardona 
  * Released under the MIT License.
  * http://www.opensource.org/licenses/mit-license.php
  * 
- * Date: Sat. Oct 20 2012                                                                                                   
+ * Date: Sat. Oct 21 2012                                                                                                   
  *    ,---,.                               ____                                        ___                
  *  ,'  .'  \                            ,'  , `.  ,---,                             ,--.'|_              
  *,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                  |  | :,'             
@@ -45,27 +45,11 @@ class Boombox{
       this.codec = ".ogg";
 
       console.log(this);
-      this.init(this);
+    this.init(this);
   }
 
   public init(ctx){
-    var map = {
-      'PlayBtn'       : 'play',
-      'PauseBtn'      : 'pause',
-      'VolumeUpBtn'   : 'volumeup',
-      'VolumeDownBtn' : 'volumedown',
-      'NextBtn'       : 'next',
-      'PreviousBtn'   : 'previous'
-    };
-
-    var mapKeys = Object.keys(map);
-    $(mapKeys).each(function(indx,elmnt){
-      $(ctx.settings  .configs.container + ' .boombox' + elmnt).each(function(inx,el){
-        $(el).click(function(){
-          ctx[map[elmnt]]();  
-        });
-      });
-    });
+    this.attachEventListeners(ctx);
 
     Object.keys(ctx.settings.tracks).forEach(function(elmt, inx){
       ctx.audioTrackTitles.push(elmt);
@@ -77,6 +61,26 @@ class Boombox{
 
     ctx.currentAudioTrackTitle = ctx.audioTrackTitles[0];
     $(ctx.settings.configs.container + ' .boomboxTrackName').text(ctx.currentAudioTrackTitle);
+  }
+
+  private attachEventListeners(ctx){
+    var map = {
+      'PlayBtn'       : 'play',
+      'PauseBtn'      : 'pause',
+      'VolumeUpBtn'   : 'volumeup',
+      'VolumeDownBtn' : 'volumedown',
+      'NextBtn'       : 'next',
+      'PreviousBtn'   : 'previous'
+    };
+
+    var mapKeys = Object.keys(map);
+    $(mapKeys).each(function(indx,elmnt){
+      $(ctx.settings.configs.container + ' .boombox' + elmnt).each(function(inx,el){
+        $(el).click(function(){
+          ctx[map[elmnt]]();  
+        });
+      });
+    });
   }
 
   public play(){
