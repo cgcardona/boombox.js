@@ -6,8 +6,8 @@ var Boombox = (function () {
         this.audioTrack = new Audio();
         this.currentTime = 0;
         this.playing = false;
-        this.titles = [];
-        this.songPaths = [];
+        this.audioTrackTitles = [];
+        this.audioTrackPaths = [];
         this.settings = {
         };
         this.settings = settings;
@@ -52,20 +52,20 @@ var Boombox = (function () {
             }, false);
         });
         Object.keys(ctx.settings.tracks).forEach(function (elmt, inx) {
-            ctx.titles.push(elmt);
-            ctx.songPaths.push(ctx.settings.tracks[elmt]);
+            ctx.audioTrackTitles.push(elmt);
+            ctx.audioTrackPaths.push(ctx.settings.tracks[elmt]);
         });
         if(ctx.settings.configs.autoplay === true) {
             this.play();
         }
-        ctx.songTitle = ctx.titles[0];
+        ctx.songTitle = ctx.audioTrackTitles[0];
         $(ctx.settings.configs.container + ' .boomboxTrackName').text(ctx.songTitle);
     };
     Boombox.prototype.play = function () {
         if(this.currentTime === 0) {
             var counterNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
             var songPathCounter = counterNum - 1;
-            this.track = this.songPaths[songPathCounter.toString()];
+            this.track = this.audioTrackPaths[songPathCounter.toString()];
             this.audioTrack['src'] = this.track + this.codec;
             this.audioTrack['play']();
         } else {
@@ -87,16 +87,16 @@ var Boombox = (function () {
         }
         $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
         var trackNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
-        $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.titles[trackNum]);
+        $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
     };
     Boombox.prototype.next = function () {
         this.audioTrack['pause']();
         this.currentTime = 0;
         var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
         var afterValue = parseInt(beforeValue, 10) + 1;
-        var counter = this.songPaths.length;
+        var counter = this.audioTrackPaths.length;
         var trackNum = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
-        $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.titles[trackNum]);
+        $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
         if(afterValue >= counter) {
             afterValue = counter;
         }
