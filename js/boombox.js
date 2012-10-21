@@ -4,7 +4,6 @@ var Boombox = (function () {
         this.codec = '.mp3';
         this.audioTrack = new Audio();
         this.currentTime = 0;
-        this.playing = false;
         this.audioTrackTitles = [];
         this.audioTrackPaths = [];
         this.settings = {

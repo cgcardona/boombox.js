@@ -30,7 +30,6 @@ class Boombox{
   public codec:string       = '.mp3';
   public audioTrack:Object  = new Audio();
   public currentTime:number = 0;
-  public playing:bool       = false;
   public audioTrackTitles: string[]   = [];
   public audioTrackPaths:string[] = [];
   public settings:Object    = {};
