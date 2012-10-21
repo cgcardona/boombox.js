@@ -99,4 +99,3 @@ For more information and examples please see [Audiofile.cc/boombox](https://audi
 and follow [cgcardona](http://twitter.com/cgcardona).
 
 For more projects by Audiofile please check out [Audiofile.cc](https://audiofile.cc).
-
