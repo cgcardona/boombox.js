@@ -17,21 +17,19 @@ var Boombox = (function () {
                 this.codec = ".ogg";
             }
         }
-        console.log(this);
-        this.init(this);
-    }
-    Boombox.prototype.init = function (ctx) {
-        this.attachEventListeners(ctx);
-        Object.keys(ctx.settings.tracks).forEach(function (elmt, inx) {
-            ctx.audioTrackTitles.push(elmt);
-            ctx.audioTrackPaths.push(ctx.settings.tracks[elmt]);
+        this.attachEventListeners(this);
+        var that = this;
+        Object.keys(this.settings['tracks']).forEach(function (elmt, inx) {
+            that.audioTrackTitles.push(elmt);
+            that.audioTrackPaths.push(that.settings['tracks'][elmt]);
         });
-        if(ctx.settings.configs.autoplay === true) {
+        if(this.settings['configs']['autoplay'] === true) {
             this.play();
         }
-        ctx.currentAudioTrackTitle = ctx.audioTrackTitles[0];
-        $(ctx.settings.configs.container + ' .boomboxTrackName').text(ctx.currentAudioTrackTitle);
-    };
+        this.currentAudioTrackTitle = this.audioTrackTitles[0];
+        $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
+        console.log(this);
+    }
     Boombox.prototype.attachEventListeners = function (ctx) {
         var map = {
             'PlayBtn': 'play',
