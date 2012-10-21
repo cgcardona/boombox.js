@@ -33,8 +33,7 @@ var Boombox = (function () {
         $(mapKeys).each(function (indx, elmnt) {
             $(ctx.settings.configs.container + ' .boombox' + elmnt).each(function (inx, el) {
                 $(el).click(function () {
-                    var finalString = map[elmnt];
-                    ctx[finalString]();
+                    ctx[map[elmnt]]();
                 });
             });
         });
@@ -61,32 +60,38 @@ var Boombox = (function () {
     };
     Boombox.prototype.pause = function () {
         this.audioTrack['pause']();
-        this['currentTime'] = this.audioTrack['currentTime'];
+        this.currentTime = this.audioTrack['currentTime'];
     };
     Boombox.prototype.previous = function () {
-        this.audioTrack['pause']();
-        this.currentTime = 0;
-        var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
-        var afterValue = parseInt(beforeValue, 10) - 1;
-        var trackNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
-        $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
-        if(afterValue <= 1) {
-            afterValue = 1;
-        }
-        $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
+        this.adjustTrackNumber('previous');
     };
     Boombox.prototype.next = function () {
-        this.audioTrack['pause']();
+        this.adjustTrackNumber('next');
+    };
+    Boombox.prototype.adjustTrackNumber = function (direction) {
+        this.pause();
         this.currentTime = 0;
         var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
-        var afterValue = parseInt(beforeValue, 10) + 1;
-        var counter = this.audioTrackPaths.length;
-        var trackNum = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
-        $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
-        if(afterValue >= counter) {
-            afterValue = counter;
+        if(direction == 'previous') {
+            var afterValue = parseInt(beforeValue, 10) - 1;
+            if(afterValue <= 1) {
+                afterValue = 1;
+            }
+            $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
+            var trackNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
+            $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
+        } else {
+            if(direction == 'next') {
+                var afterValue = parseInt(beforeValue, 10) + 1;
+                var counter = this.audioTrackPaths.length;
+                var trackNum = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
+                $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
+                if(afterValue >= counter) {
+                    afterValue = counter;
+                }
+                $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
+            }
         }
-        $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
     };
     Boombox.prototype.volumedown = function () {
         this.adjustVolume('down');
