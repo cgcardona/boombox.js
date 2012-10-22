@@ -43,6 +43,9 @@ class Boombox{
     else if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
       this.codec = ".ogg";
 
+    if(this.settings['configs']['buildBoombox'] === true)
+      this.buildBoomboxDOM();
+
     this.attachEventListeners(this);
     
     var that = this;
@@ -55,9 +58,42 @@ class Boombox{
       this.play();
 
     this.currentAudioTrackTitle = this.audioTrackTitles[0];
-    $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
+    $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
 
-    console.log(this);
+    //console.log(this);
+  }
+
+  private buildBoomboxDOM(){
+    var wrapperDiv = document.createElement('div');
+    var counterSpan = document.createElement('span');
+    counterSpan.setAttribute('class','boomboxCounter');
+    counterSpan.innerText = '1';
+
+    var trackNameSpan = document.createElement('span');
+    trackNameSpan.setAttribute('class','boomboxTrackName');
+
+    $(wrapperDiv).append(counterSpan);
+    $('#' + this.settings.configs.container).append(wrapperDiv);
+    $(wrapperDiv).append(trackNameSpan);
+
+    var ElmntMap = {
+      'PlayBtn'       : 'Play',
+      'PauseBtn'      : 'Pause',
+      'PreviousBtn'   : 'Previous',
+      'NextBtn'       : 'Next',
+      'VolumeDownBtn' : 'Volume Down',
+      'VolumeUpBtn'   : 'Volume Up',
+      'MuteBtn'       : 'Mute'
+    };
+
+    var that = this;
+    var ElmntMapKeys = Object.keys(ElmntMap);
+    $(ElmntMapKeys).each(function(inx,elent){
+      var tmpEl = document.createElement('button');
+      tmpEl.setAttribute('class','boombox' + elent);
+      tmpEl.innerText = ElmntMap[elent];
+      $('#' + that.settings.configs.container).append(tmpEl);
+    });
   }
 
   private attachEventListeners(ctx){
@@ -73,7 +109,7 @@ class Boombox{
 
     var mapKeys = Object.keys(map);
     $(mapKeys).each(function(indx,elmnt){
-      $(ctx.settings.configs.container + ' .boombox' + elmnt).each(function(inx,el){
+      $('#' + ctx.settings.configs.container + ' .boombox' + elmnt).each(function(inx,el){
         $(el).click(function(evnt){
           if(elmnt == 'MuteBtn')
             ctx[map[elmnt]](evnt.srcElement);  
@@ -87,7 +123,7 @@ class Boombox{
   public play(){
     if (this.currentTime === 0)
     {
-      var counterNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
+      var counterNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
       var songPathCounter = counterNum - 1;
       this.audioTrack['src'] = this.audioTrackPaths[songPathCounter.toString()] + this.codec;
       this.audioTrack['play']();
@@ -115,7 +151,7 @@ class Boombox{
   private adjustTrackNumber(direction){
     this.pause();
     this.currentTime = 0;
-    var beforeValue = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
+    var beforeValue = $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text();
 
     if(direction == 'previous')
     {
@@ -123,21 +159,21 @@ class Boombox{
       if (afterValue <= 1)
         afterValue = 1; 
  
-      $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
+      $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
       var trackNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
-      $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
+      $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
     }
     else if (direction == 'next')
     {
       var afterValue = parseInt(beforeValue, 10) + 1;
       var counter = this.audioTrackPaths.length;
-      var trackNum = $(this.settings['configs']['container'] + ' .boomboxCounter').text();
-      $(this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
+      var trackNum = $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text();
+      $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
 
       if (afterValue >= counter)
       afterValue = counter; 
 
-      $(this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
+      $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
     }
   }
 
