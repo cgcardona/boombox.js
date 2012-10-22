@@ -17,7 +17,7 @@ var Boombox = (function () {
                 this.codec = ".ogg";
             }
         }
-        if(this.settings['configs']['buildBoombox'] === true) {
+        if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true) {
             this.buildBoomboxDOM();
         }
         this.attachEventListeners(this);
