@@ -40,13 +40,13 @@ buttons in a div with a unique id. You'll be using that unique id in the next st
 
     <div id="boombox"> 
           <div><span class="boomboxCounter">1</span> <span class="boomboxTrackName"></span></div> 
-          <button class="boomboxPlayBtn slick-black boombox">Play</button> 
-          <button class="boomboxPauseBtn slick-black boombox">Pause</button> 
-          <button class="boomboxPreviousBtn slick-black boombox">Previous</button> 
-          <button class="boomboxNextBtn slick-black boombox">Next</button> 
-          <button class="boomboxVolumeDownBtn slick-black boombox">Volume Down</button> 
-          <button class="boomboxVolumeUpBtn slick-black boombox">Volume Up</button> 
-          <button class="boomboxMuteBtn slick-black boombox">Mute</button>
+          <button class="boomboxPlayBtn">Play</button> 
+          <button class="boomboxPauseBtn">Pause</button> 
+          <button class="boomboxPreviousBtn">Previous</button> 
+          <button class="boomboxNextBtn">Next</button> 
+          <button class="boomboxVolumeDownBtn">Volume Down</button> 
+          <button class="boomboxVolumeUpBtn">Volume Up</button> 
+          <button class="boomboxMuteBtn">Mute</button>
     </div>
 
 Create a boombox
