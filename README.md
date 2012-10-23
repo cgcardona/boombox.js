@@ -46,6 +46,7 @@ buttons in a div with a unique id. You'll be using that unique id in the next st
           <button class="boomboxNextBtn slick-black boombox">Next</button> 
           <button class="boomboxVolumeDownBtn slick-black boombox">Volume Down</button> 
           <button class="boomboxVolumeUpBtn slick-black boombox">Volume Up</button> 
+          <button class="boomboxMuteBtn slick-black boombox">Mute</button>
     </div>
 
 Create a boombox
