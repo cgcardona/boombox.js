@@ -43,8 +43,8 @@ class Boombox{
     else if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
       this.codec = ".ogg";
 
-    if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
-      this.buildBoomboxDOM();
+      //if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
+      //  this.buildBoomboxDOM();
 
     this.attachEventListeners(this);
     
