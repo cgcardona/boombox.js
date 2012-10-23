@@ -1,30 +1,3 @@
-/*
- * boombox.js JavaScript Library v0.2.1
- * https://audiofile.cc/boombox
- * 
- * Copyright 2011 - 2012 Carlos Cardona 
- * Released under the MIT License.
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Date: Sat. Oct 22 2012                                                                                                   
- *                                                                                                                                                                                                                    
- *      ,---,.                               ____                                                             
- *    ,'  .'  \                            ,'  , `.  ,---,                                                    
- *  ,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                        .--.             
- *  |   |  |: |  '   ,'\   '   ,'\   ,-+-. ;   , |||   | :     '   ,'\ ,--,  ,--,          .--,`|  .--.--.    
- *  :   :  :  / /   /   | /   /   | ,--.'|'   |  ||:   : :    /   /   ||'. \/ .`|          |  |.  /  /    '   
- *  :   |    ; .   ; ,. :.   ; ,. :|   |  ,', |  |,:     |,-..   ; ,. :'  \/  / ;          '--`_ |  :  /`./   
- *  |   :     \'   | |: :'   | |: :|   | /  | |--' |   : '  |'   | |: : \  \.' /           ,--,'||  :  ;_     
- *  |   |   . |'   | .; :'   | .; :|   : |  | ,    |   |  / :'   | .; :  \  ;  ;           |  | ' \  \    `.  
- *  '   :  '; ||   :    ||   :    ||   : |  |/     '   : |: ||   :    | / \  \  \          :  | |  `----.   \ 
- *  |   |  | ;  \   \  /  \   \  / |   | |`-'      |   | '/ : \   \  /./__;   ;  \ ___   __|  : ' /  /`--'  / 
- *  |   :   /    `----'    `----'  |   ;/          |   :    |  `----' |   :/\  \ ;/  .\.'__/\_: |'--'.     /  
- *  |   | ,'                       '---'           /    \  /          `---'  `--` \  ; |   :    :  `--'---'   
- *  `----'                                         `-'----'                        `--" \   \  /              
-                                                                                     `--`-'               
- * ASCII art created with http://patorjk.com/software/taag/  
- */
-
 'use strict';
 var Boombox = (function () {
     function Boombox(settings) {
@@ -44,6 +17,9 @@ var Boombox = (function () {
                 this.codec = ".ogg";
             }
         }
+        if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true) {
+            this.buildBoomboxDOM();
+        }
         this.attachEventListeners(this);
         var that = this;
         Object.keys(this.settings['tracks']).forEach(function (elmt, inx) {
@@ -53,18 +29,27 @@ var Boombox = (function () {
         if(this.settings['configs']['autoplay'] === true) {
             this.play();
         }
-        this.currentAudioTrackTitle = this.audioTrackTitles[0];
+        if(this.settings['configs']['startingTrack'] != undefined) {
+            var finalNum = this.settings['configs']['startingTrack'] - 1;
+            this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
+        } else {
+            this.currentAudioTrackTitle = this.audioTrackTitles[0];
+        }
         $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
     }
     Boombox.prototype.buildBoomboxDOM = function () {
         var wrapperDiv = document.createElement('div');
         var counterSpan = document.createElement('span');
         counterSpan.setAttribute('class', 'boomboxCounter');
-        counterSpan.innerText = '1';
+        if(this.settings['configs']['startingTrack'] != undefined) {
+            counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
+        } else {
+            counterSpan.innerText = '1';
+        }
         var trackNameSpan = document.createElement('span');
         trackNameSpan.setAttribute('class', 'boomboxTrackName');
         $(wrapperDiv).append(counterSpan);
-        $('#' + this.settings.configs.container).append(wrapperDiv);
+        $('#' + this.settings['configs']['container']).append(wrapperDiv);
         $(wrapperDiv).append(trackNameSpan);
         var ElmntMap = {
             'PlayBtn': 'Play',
@@ -81,7 +66,7 @@ var Boombox = (function () {
             var tmpEl = document.createElement('button');
             tmpEl.setAttribute('class', 'boombox' + elent);
             tmpEl.innerText = ElmntMap[elent];
-            $('#' + that.settings.configs.container).append(tmpEl);
+            $('#' + that.settings['configs']['container']).append(tmpEl);
         });
     };
     Boombox.prototype.attachEventListeners = function (ctx) {
@@ -105,6 +90,8 @@ var Boombox = (function () {
                     }
                 });
             });
+        });
+        $(ctx.audioTrack).bind('progress', function (evt) {
         });
     };
     Boombox.prototype.play = function () {
@@ -138,7 +125,7 @@ var Boombox = (function () {
                 afterValue = 1;
             }
             $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
-            var trackNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
+            var trackNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
             $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
         } else {
             if(direction == 'next') {

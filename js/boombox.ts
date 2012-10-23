@@ -43,8 +43,8 @@ class Boombox{
     else if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
       this.codec = ".ogg";
 
-      //if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
-      //  this.buildBoomboxDOM();
+    if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
+      this.buildBoomboxDOM();
 
     this.attachEventListeners(this);
     
@@ -57,23 +57,34 @@ class Boombox{
     if(this.settings['configs']['autoplay'] === true)
       this.play();
 
-    this.currentAudioTrackTitle = this.audioTrackTitles[0];
+    if(this.settings['configs']['startingTrack'] != undefined)
+    {
+      var finalNum = this.settings['configs']['startingTrack'] - 1;
+      this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
+    }
+    else
+      this.currentAudioTrackTitle = this.audioTrackTitles[0];
+
     $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
 
-    //console.log(this);
+    // this.audioTrack['playbackRate'] = 1;
   }
 
   private buildBoomboxDOM(){
     var wrapperDiv = document.createElement('div');
     var counterSpan = document.createElement('span');
     counterSpan.setAttribute('class','boomboxCounter');
-    counterSpan.innerText = '1';
+
+    if(this.settings['configs']['startingTrack'] != undefined)
+      counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
+    else
+      counterSpan.innerText = '1';
 
     var trackNameSpan = document.createElement('span');
     trackNameSpan.setAttribute('class','boomboxTrackName');
 
     $(wrapperDiv).append(counterSpan);
-    $('#' + this.settings.configs.container).append(wrapperDiv);
+    $('#' + this.settings['configs']['container']).append(wrapperDiv);
     $(wrapperDiv).append(trackNameSpan);
 
     var ElmntMap = {
@@ -92,7 +103,7 @@ class Boombox{
       var tmpEl = document.createElement('button');
       tmpEl.setAttribute('class','boombox' + elent);
       tmpEl.innerText = ElmntMap[elent];
-      $('#' + that.settings.configs.container).append(tmpEl);
+      $('#' + that.settings['configs']['container']).append(tmpEl);
     });
   }
 
@@ -117,6 +128,10 @@ class Boombox{
             ctx[map[elmnt]]();  
         });
       });
+    });
+
+    $(ctx.audioTrack).bind('progress',function(evt){
+    //console.log(evt);
     });
   }
 
@@ -160,7 +175,7 @@ class Boombox{
         afterValue = 1; 
  
       $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
-      var trackNum = parseInt($(this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
+      var trackNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
       $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
     }
     else if (direction == 'next')
