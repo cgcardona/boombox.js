@@ -1,5 +1,5 @@
 /*
- * boombox.ts TypeScript Library v0.1.1
+ * boombox.ts Typescript Library v0.1.1
  * https://audiofile.cc/boombox
  * 
  * Copyright 2011 - 2012 Carlos Cardona 
@@ -43,8 +43,8 @@ class Boombox{
     else if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
       this.codec = ".ogg";
 
-    if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
-      this.buildBoomboxDOM();
+      //if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
+      //  this.buildBoomboxDOM();
 
     this.attachEventListeners(this);
     
@@ -57,14 +57,15 @@ class Boombox{
     if(this.settings['configs']['autoplay'] === true)
       this.play();
 
-    if(this.settings['configs']['startingTrack'] != undefined)
-    {
-      var finalNum = this.settings['configs']['startingTrack'] - 1;
-      this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
-    }
-    else
-      this.currentAudioTrackTitle = this.audioTrackTitles[0];
+      //if(this.settings['configs']['startingTrack'] != undefined)
+      //{
+      //  var finalNum = this.settings['configs']['startingTrack'] - 1;
+      //  this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
+      //}
+      //else
+      //  this.currentAudioTrackTitle = this.audioTrackTitles[0];
 
+    this.currentAudioTrackTitle = this.audioTrackTitles[0];
     $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
 
     // this.audioTrack['playbackRate'] = 1;
@@ -75,11 +76,12 @@ class Boombox{
     var counterSpan = document.createElement('span');
     counterSpan.setAttribute('class','boomboxCounter');
 
-    if(this.settings['configs']['startingTrack'] != undefined)
-      counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
-    else
-      counterSpan.innerText = '1';
+    //if(this.settings['configs']['startingTrack'] != undefined)
+    //  counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
+    //else
+    //  counterSpan.innerText = '1';
 
+    counterSpan.innerText = '1';
     var trackNameSpan = document.createElement('span');
     trackNameSpan.setAttribute('class','boomboxTrackName');
 

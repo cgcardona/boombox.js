@@ -1,3 +1,28 @@
+/*
+ * boombox.js Javascript Library v0.1.1
+ * https://audiofile.cc/boombox
+ * 
+ * Copyright 2011 - 2012 Carlos Cardona 
+ * Released under the MIT License.
+ * http://www.opensource.org/licenses/mit-license.php
+ * 
+ * Date: Sat. Oct 22 2012                                                                                                                                                                                                                                                                                                                       
+ *    ,---,.                               ____                                                             
+ *  ,'  .'  \                            ,'  , `.  ,---,                                                    
+ *,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                        .--.             
+ *|   |  |: |  '   ,'\   '   ,'\   ,-+-. ;   , |||   | :     '   ,'\ ,--,  ,--,          .--,`|  .--.--.    
+ *:   :  :  / /   /   | /   /   | ,--.'|'   |  ||:   : :    /   /   ||'. \/ .`|          |  |.  /  /    '   
+ *:   |    ; .   ; ,. :.   ; ,. :|   |  ,', |  |,:     |,-..   ; ,. :'  \/  / ;          '--`_ |  :  /`./   
+ *|   :     \'   | |: :'   | |: :|   | /  | |--' |   : '  |'   | |: : \  \.' /           ,--,'||  :  ;_     
+ *|   |   . |'   | .; :'   | .; :|   : |  | ,    |   |  / :'   | .; :  \  ;  ;           |  | ' \  \    `.  
+ *'   :  '; ||   :    ||   :    ||   : |  |/     '   : |: ||   :    | / \  \  \          :  | |  `----.   \ 
+ *|   |  | ;  \   \  /  \   \  / |   | |`-'      |   | '/ : \   \  /./__;   ;  \ ___   __|  : ' /  /`--'  / 
+ *|   :   /    `----'    `----'  |   ;/          |   :    |  `----' |   :/\  \ ;/  .\.'__/\_: |'--'.     /  
+ *|   | ,'                       '---'           /    \  /          `---'  `--` \  ; |   :    :  `--'---'   
+ *`----'                                         `-'----'                        `--" \   \  /              
+ *                                                                                     `--`-'               
+ * ASCII art created with http://patorjk.com/software/taag/  
+ */
 'use strict';
 var Boombox = (function () {
     function Boombox(settings) {
@@ -17,9 +42,6 @@ var Boombox = (function () {
                 this.codec = ".ogg";
             }
         }
-        if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true) {
-            this.buildBoomboxDOM();
-        }
         this.attachEventListeners(this);
         var that = this;
         Object.keys(this.settings['tracks']).forEach(function (elmt, inx) {
@@ -29,23 +51,14 @@ var Boombox = (function () {
         if(this.settings['configs']['autoplay'] === true) {
             this.play();
         }
-        if(this.settings['configs']['startingTrack'] != undefined) {
-            var finalNum = this.settings['configs']['startingTrack'] - 1;
-            this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
-        } else {
-            this.currentAudioTrackTitle = this.audioTrackTitles[0];
-        }
+        this.currentAudioTrackTitle = this.audioTrackTitles[0];
         $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
     }
     Boombox.prototype.buildBoomboxDOM = function () {
         var wrapperDiv = document.createElement('div');
         var counterSpan = document.createElement('span');
         counterSpan.setAttribute('class', 'boomboxCounter');
-        if(this.settings['configs']['startingTrack'] != undefined) {
-            counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
-        } else {
-            counterSpan.innerText = '1';
-        }
+        counterSpan.innerText = '1';
         var trackNameSpan = document.createElement('span');
         trackNameSpan.setAttribute('class', 'boomboxTrackName');
         $(wrapperDiv).append(counterSpan);
