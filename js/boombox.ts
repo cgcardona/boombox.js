@@ -1,12 +1,12 @@
 /*
- * boombox.ts JavaScript Library v0.1.1
+ * boombox.ts TypeScript Library v0.1.1
  * https://audiofile.cc/boombox
  * 
  * Copyright 2011 - 2012 Carlos Cardona 
  * Released under the MIT License.
  * http://www.opensource.org/licenses/mit-license.php
  * 
- * Date: Sat. Oct 21 2012                                                                                                   
+ * Date: Sat. Oct 22 2012                                                                                                   
  *    ,---,.                               ____                                        ___                
  *  ,'  .'  \                            ,'  , `.  ,---,                             ,--.'|_              
  *,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                  |  | :,'             
