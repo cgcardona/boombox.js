@@ -1,28 +1,3 @@
-/*
- * boombox.js Javascript Library v0.1.1
- * https://audiofile.cc/boombox
- * 
- * Copyright 2011 - 2012 Carlos Cardona 
- * Released under the MIT License.
- * http://www.opensource.org/licenses/mit-license.php
- * 
- * Date: Sat. Oct 22 2012                                                                                                                                                                                                                                                                                                                       
- *    ,---,.                               ____                                                             
- *  ,'  .'  \                            ,'  , `.  ,---,                                                    
- *,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                        .--.             
- *|   |  |: |  '   ,'\   '   ,'\   ,-+-. ;   , |||   | :     '   ,'\ ,--,  ,--,          .--,`|  .--.--.    
- *:   :  :  / /   /   | /   /   | ,--.'|'   |  ||:   : :    /   /   ||'. \/ .`|          |  |.  /  /    '   
- *:   |    ; .   ; ,. :.   ; ,. :|   |  ,', |  |,:     |,-..   ; ,. :'  \/  / ;          '--`_ |  :  /`./   
- *|   :     \'   | |: :'   | |: :|   | /  | |--' |   : '  |'   | |: : \  \.' /           ,--,'||  :  ;_     
- *|   |   . |'   | .; :'   | .; :|   : |  | ,    |   |  / :'   | .; :  \  ;  ;           |  | ' \  \    `.  
- *'   :  '; ||   :    ||   :    ||   : |  |/     '   : |: ||   :    | / \  \  \          :  | |  `----.   \ 
- *|   |  | ;  \   \  /  \   \  / |   | |`-'      |   | '/ : \   \  /./__;   ;  \ ___   __|  : ' /  /`--'  / 
- *|   :   /    `----'    `----'  |   ;/          |   :    |  `----' |   :/\  \ ;/  .\.'__/\_: |'--'.     /  
- *|   | ,'                       '---'           /    \  /          `---'  `--` \  ; |   :    :  `--'---'   
- *`----'                                         `-'----'                        `--" \   \  /              
- *                                                                                     `--`-'               
- * ASCII art created with http://patorjk.com/software/taag/  
- */
 'use strict';
 var Boombox = (function () {
     function Boombox(settings) {
@@ -42,6 +17,9 @@ var Boombox = (function () {
                 this.codec = ".ogg";
             }
         }
+        if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true) {
+            this.buildBoomboxDOM();
+        }
         this.attachEventListeners(this);
         var that = this;
         Object.keys(this.settings['tracks']).forEach(function (elmt, inx) {
@@ -51,14 +29,23 @@ var Boombox = (function () {
         if(this.settings['configs']['autoplay'] === true) {
             this.play();
         }
-        this.currentAudioTrackTitle = this.audioTrackTitles[0];
+        if(this.settings['configs']['startingTrack'] != undefined) {
+            var finalNum = this.settings['configs']['startingTrack'] - 1;
+            this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
+        } else {
+            this.currentAudioTrackTitle = this.audioTrackTitles[0];
+        }
         $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
     }
     Boombox.prototype.buildBoomboxDOM = function () {
         var wrapperDiv = document.createElement('div');
         var counterSpan = document.createElement('span');
         counterSpan.setAttribute('class', 'boomboxCounter');
-        counterSpan.innerText = '1';
+        if(this.settings['configs']['startingTrack'] != undefined) {
+            counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
+        } else {
+            counterSpan.innerText = '1';
+        }
         var trackNameSpan = document.createElement('span');
         trackNameSpan.setAttribute('class', 'boomboxTrackName');
         $(wrapperDiv).append(counterSpan);
@@ -71,7 +58,8 @@ var Boombox = (function () {
             'NextBtn': 'Next',
             'VolumeDownBtn': 'Volume Down',
             'VolumeUpBtn': 'Volume Up',
-            'MuteBtn': 'Mute'
+            'MuteBtn': 'Mute',
+            'LoopBtn': 'Loop'
         };
         var that = this;
         var ElmntMapKeys = Object.keys(ElmntMap);
@@ -90,21 +78,20 @@ var Boombox = (function () {
             'VolumeDownBtn': 'volumeDown',
             'NextBtn': 'next',
             'PreviousBtn': 'previous',
-            'MuteBtn': 'mute'
+            'MuteBtn': 'mute',
+            'LoopBtn': 'loop'
         };
         var mapKeys = Object.keys(map);
         $(mapKeys).each(function (indx, elmnt) {
             $('#' + ctx.settings.configs.container + ' .boombox' + elmnt).each(function (inx, el) {
                 $(el).click(function (evnt) {
-                    if(elmnt == 'MuteBtn') {
+                    if(elmnt == 'MuteBtn' || elmnt == 'LoopBtn') {
                         ctx[map[elmnt]](evnt.srcElement);
                     } else {
                         ctx[map[elmnt]]();
                     }
                 });
             });
-        });
-        $(ctx.audioTrack).bind('progress', function (evt) {
         });
     };
     Boombox.prototype.play = function () {
@@ -129,6 +116,9 @@ var Boombox = (function () {
         this.adjustTrackNumber('next');
     };
     Boombox.prototype.adjustTrackNumber = function (direction) {
+        if(this.audioTrack['loop'] == true) {
+            this.loop($('#' + this.settings['configs']['container'] + ' .boomboxLoopBtn'));
+        }
         this.pause();
         this.currentTime = 0;
         var beforeValue = $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text();
@@ -185,6 +175,17 @@ var Boombox = (function () {
             if(this.audioTrack['muted'] == false) {
                 this.audioTrack['muted'] = true;
                 $(srcElmnt).text('Unmute');
+            }
+        }
+    };
+    Boombox.prototype.loop = function (srcElmnt) {
+        if(this.audioTrack['loop'] == true) {
+            this.audioTrack['loop'] = false;
+            $(srcElmnt).css('color', 'black');
+        } else {
+            if(this.audioTrack['loop'] == false) {
+                this.audioTrack['loop'] = true;
+                $(srcElmnt).css('color', 'red');
             }
         }
     };

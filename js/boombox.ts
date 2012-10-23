@@ -43,8 +43,8 @@ class Boombox{
     else if (!!(this.audioTrack['canPlayType'] && this.audioTrack['canPlayType']('audio/ogg; codecs="vorbis"').replace(/no/, '')))
       this.codec = ".ogg";
 
-      //if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
-      //  this.buildBoomboxDOM();
+    if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
+      this.buildBoomboxDOM();
 
     this.attachEventListeners(this);
     
@@ -57,18 +57,19 @@ class Boombox{
     if(this.settings['configs']['autoplay'] === true)
       this.play();
 
-      //if(this.settings['configs']['startingTrack'] != undefined)
-      //{
-      //  var finalNum = this.settings['configs']['startingTrack'] - 1;
-      //  this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
-      //}
-      //else
-      //  this.currentAudioTrackTitle = this.audioTrackTitles[0];
+    if(this.settings['configs']['startingTrack'] != undefined)
+    {
+      var finalNum = this.settings['configs']['startingTrack'] - 1;
+      this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
+    }
+    else
+      this.currentAudioTrackTitle = this.audioTrackTitles[0];
 
-    this.currentAudioTrackTitle = this.audioTrackTitles[0];
     $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
 
+    //console.log(this);
     // this.audioTrack['playbackRate'] = 1;
+    // HTMLMediaElement Class reference for properties and events of the Audio Element http://goo.gl/FpSCA
   }
 
   private buildBoomboxDOM(){
@@ -76,12 +77,11 @@ class Boombox{
     var counterSpan = document.createElement('span');
     counterSpan.setAttribute('class','boomboxCounter');
 
-    //if(this.settings['configs']['startingTrack'] != undefined)
-    //  counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
-    //else
-    //  counterSpan.innerText = '1';
+    if(this.settings['configs']['startingTrack'] != undefined)
+      counterSpan.innerText = this.settings['configs']['startingTrack'].toString();
+    else
+      counterSpan.innerText = '1';
 
-    counterSpan.innerText = '1';
     var trackNameSpan = document.createElement('span');
     trackNameSpan.setAttribute('class','boomboxTrackName');
 
@@ -96,7 +96,8 @@ class Boombox{
       'NextBtn'       : 'Next',
       'VolumeDownBtn' : 'Volume Down',
       'VolumeUpBtn'   : 'Volume Up',
-      'MuteBtn'       : 'Mute'
+      'MuteBtn'       : 'Mute',
+      'LoopBtn'       : 'Loop'
     };
 
     var that = this;
@@ -117,23 +118,20 @@ class Boombox{
       'VolumeDownBtn' : 'volumeDown',
       'NextBtn'       : 'next',
       'PreviousBtn'   : 'previous',
-      'MuteBtn'       : 'mute'
+      'MuteBtn'       : 'mute',
+      'LoopBtn'       : 'loop'
     };
 
     var mapKeys = Object.keys(map);
     $(mapKeys).each(function(indx,elmnt){
       $('#' + ctx.settings.configs.container + ' .boombox' + elmnt).each(function(inx,el){
         $(el).click(function(evnt){
-          if(elmnt == 'MuteBtn')
+          if(elmnt == 'MuteBtn' || elmnt == 'LoopBtn')
             ctx[map[elmnt]](evnt.srcElement);  
           else
             ctx[map[elmnt]]();  
         });
       });
-    });
-
-    $(ctx.audioTrack).bind('progress',function(evt){
-    //console.log(evt);
     });
   }
 
@@ -165,7 +163,11 @@ class Boombox{
     this.adjustTrackNumber('next');
   }
 
-  private adjustTrackNumber(direction){
+  private adjustTrackNumber(direction:string){
+    if(this.audioTrack['loop'] == true)
+    {
+      this.loop($('#' + this.settings['configs']['container'] + ' .boomboxLoopBtn'));
+    }
     this.pause();
     this.currentTime = 0;
     var beforeValue = $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text();
@@ -202,7 +204,7 @@ class Boombox{
     this.adjustVolume('up');
   }
 
-  private adjustVolume(direction){
+  private adjustVolume(direction:string){
     var currentVolume = this.audioTrack['volume'];
     if(direction == 'up')
     {
@@ -220,7 +222,7 @@ class Boombox{
     }
   }
 
-  public mute(srcElmnt){
+  public mute(srcElmnt:Object){
     if(this.audioTrack['muted'] == true)
     {
       this.audioTrack['muted'] = false;
@@ -230,6 +232,19 @@ class Boombox{
     {
       this.audioTrack['muted'] = true;
       $(srcElmnt).text('Unmute');
+    }
+  }
+
+  public loop(srcElmnt?:Object){
+    if(this.audioTrack['loop'] == true)
+    {
+      this.audioTrack['loop'] = false;
+      $(srcElmnt).css('color','black');
+    }
+    else if(this.audioTrack['loop'] == false)
+    {
+      this.audioTrack['loop'] = true;
+      $(srcElmnt).css('color','red');
     }
   }
 }
