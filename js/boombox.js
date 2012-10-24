@@ -20,23 +20,28 @@ var Boombox = (function () {
         if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true) {
             this.buildBoomboxDOM();
         }
-        this.attachEventListeners(this);
-        var that = this;
+        this.attachEventListeners();
+        var thisObj = this;
         Object.keys(this.settings['tracks']).forEach(function (elmt, inx) {
-            that.audioTrackTitles.push(elmt);
-            that.audioTrackPaths.push(that.settings['tracks'][elmt]);
+            thisObj.audioTrackTitles.push(elmt);
+            thisObj.audioTrackPaths.push(thisObj.settings['tracks'][elmt]);
         });
-        if(this.settings['configs']['autoplay'] === true) {
-            this.play();
-        }
         if(this.settings['configs']['startingTrack'] != undefined) {
-            var finalNum = this.settings['configs']['startingTrack'] - 1;
-            this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
+            this.currentAudioTrackTitle = this.audioTrackTitles[this.settings['configs']['startingTrack'] - 1];
         } else {
             this.currentAudioTrackTitle = this.audioTrackTitles[0];
         }
+        this.setSource();
+        if(this.settings['configs']['autoplay'] === true) {
+            this.play();
+        }
         $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
     }
+    Boombox.prototype.setSource = function () {
+        var counterNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
+        var songPathCounter = counterNum - 1;
+        this.audioTrack['src'] = this.audioTrackPaths[songPathCounter.toString()] + this.codec;
+    };
     Boombox.prototype.buildBoomboxDOM = function () {
         var wrapperDiv = document.createElement('div');
         var counterSpan = document.createElement('span');
@@ -61,16 +66,28 @@ var Boombox = (function () {
             'MuteBtn': 'Mute',
             'LoopBtn': 'Loop'
         };
-        var that = this;
+        var thisObj = this;
         var ElmntMapKeys = Object.keys(ElmntMap);
         $(ElmntMapKeys).each(function (inx, elent) {
             var tmpEl = document.createElement('button');
             tmpEl.setAttribute('class', 'boombox' + elent);
             tmpEl.innerText = ElmntMap[elent];
-            $('#' + that.settings['configs']['container']).append(tmpEl);
+            $('#' + thisObj.settings['configs']['container']).append(tmpEl);
         });
+        var currentTimeRangeWrapper = $('<div></div>').addClass('crntTime');
+        var currentTimeRangeDesc = $('<span class="currentTime"></span>').text('Current Time: 0');
+        var currentTimesliderInput = $('<input>').attr('type', 'range').attr('min', '0').attr('step', '.1').val('0').addClass('boomboxCurrentTime');
+        $(currentTimeRangeWrapper).append(currentTimeRangeDesc);
+        $(currentTimeRangeWrapper).append(currentTimesliderInput);
+        $('#' + this.settings['configs']['container']).append(currentTimeRangeWrapper);
+        var pbRateRangeWrapper = $('<div></div>');
+        var pbRateRangeDesc = $('<span class="pbRate"></span>').text('Playback Rate: 1');
+        var pbRatesliderInput = $('<input>').attr('type', 'range').attr('min', '.5').attr('max', '1').attr('step', '.1').val('1').addClass('boomboxPlaybackRate');
+        $(pbRateRangeWrapper).append(pbRateRangeDesc);
+        $(pbRateRangeWrapper).append(pbRatesliderInput);
+        $('#' + this.settings['configs']['container']).append(pbRateRangeWrapper);
     };
-    Boombox.prototype.attachEventListeners = function (ctx) {
+    Boombox.prototype.attachEventListeners = function () {
         var map = {
             'PlayBtn': 'play',
             'PauseBtn': 'pause',
@@ -81,24 +98,48 @@ var Boombox = (function () {
             'MuteBtn': 'mute',
             'LoopBtn': 'loop'
         };
+        var thisObj = this;
         var mapKeys = Object.keys(map);
         $(mapKeys).each(function (indx, elmnt) {
-            $('#' + ctx.settings.configs.container + ' .boombox' + elmnt).each(function (inx, el) {
+            $('#' + thisObj.settings['configs']['container'] + ' .boombox' + elmnt).each(function (inx, el) {
                 $(el).click(function (evnt) {
                     if(elmnt == 'MuteBtn' || elmnt == 'LoopBtn') {
-                        ctx[map[elmnt]](evnt.srcElement);
+                        thisObj[map[elmnt]](evnt.srcElement);
                     } else {
-                        ctx[map[elmnt]]();
+                        thisObj[map[elmnt]]();
                     }
                 });
             });
         });
+        var crntTmRngInput = $('#' + thisObj.settings['configs']['container'] + ' .boomboxCurrentTime')[0];
+        $(crntTmRngInput).change(function (et) {
+            thisObj.audioTrack['currentTime'] = et.srcElement.value;
+            var spanEl = $('#' + thisObj.settings['configs']['container'] + ' .currentTime')[0];
+            $(spanEl).text('Current Time: ' + et.srcElement.value);
+        });
+        var plybkRangeInput = $('#' + thisObj.settings['configs']['container'] + ' .boomboxPlaybackRate')[0];
+        $(plybkRangeInput).change(function (evnt) {
+            thisObj.audioTrack['playbackRate'] = evnt.srcElement.value;
+            var spanEl = $('#' + thisObj.settings['configs']['container'] + ' .pbRate')[0];
+            $(spanEl).text('Playback Rate: ' + evnt.srcElement.value);
+        });
+        $(thisObj.audioTrack).bind('timeupdate', function (evt) {
+            $('#' + thisObj.settings['configs']['container'] + ' .boomboxCurrentTime').attr('value', evt.srcElement.currentTime);
+            var roundedCrntTime = Math.round(evt.srcElement.currentTime * 10) / 10;
+            var splitCrntTime = roundedCrntTime.toString().split('.');
+            var spanEl = $('#' + thisObj.settings['configs']['container'] + ' .currentTime')[0];
+            if(parseInt(splitCrntTime[1], 10) >= 5) {
+                $(spanEl).text('Current Time: ' + Math.ceil(evt.srcElement.currentTime));
+            } else {
+                if(parseInt(splitCrntTime[1], 10) <= 4) {
+                    $(spanEl).text('Current Time: ' + Math.floor(evt.srcElement.currentTime));
+                }
+            }
+        });
     };
     Boombox.prototype.play = function () {
+        $('#' + this.settings['configs']['container'] + ' .boomboxCurrentTime').attr('max', this.audioTrack['duration']);
         if(this.currentTime === 0) {
-            var counterNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
-            var songPathCounter = counterNum - 1;
-            this.audioTrack['src'] = this.audioTrackPaths[songPathCounter.toString()] + this.codec;
             this.audioTrack['play']();
         } else {
             this.audioTrack['currentTime'] = this.currentTime;
@@ -142,6 +183,9 @@ var Boombox = (function () {
                 $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
             }
         }
+        $('#' + this.settings['configs']['container'] + ' .currentTime').text('Current Time: 0');
+        $('#' + this.settings['configs']['container'] + ' .boomboxCurrentTime').val('0');
+        this.setSource();
     };
     Boombox.prototype.volumeDown = function () {
         this.adjustVolume('down');

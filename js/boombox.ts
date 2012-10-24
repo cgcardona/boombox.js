@@ -1,12 +1,12 @@
 /*
- * boombox.ts Typescript Library v0.1.1
+ * boombox.ts Typescript Library v0.1.2
  * https://audiofile.cc/boombox
  * 
  * Copyright 2011 - 2012 Carlos Cardona 
  * Released under the MIT License.
  * http://www.opensource.org/licenses/mit-license.php
  * 
- * Date: Sat. Oct 22 2012                                                                                                   
+ * Date: Sat. Oct 23 2012                                                                                                   
  *    ,---,.                               ____                                        ___                
  *  ,'  .'  \                            ,'  , `.  ,---,                             ,--.'|_              
  *,---.' .' |   ,---.     ,---.       ,-+-,.' _ |,---.'|      ,---.                  |  | :,'             
@@ -46,30 +46,33 @@ class Boombox{
     if(this.settings['configs']['buildBoombox'] == undefined || this.settings['configs']['buildBoombox'] === true)
       this.buildBoomboxDOM();
 
-    this.attachEventListeners(this);
+    this.attachEventListeners();
     
-    var that = this;
+    var thisObj = this;
     Object.keys(this.settings['tracks']).forEach(function(elmt, inx){
-      that.audioTrackTitles.push(elmt);
-      that.audioTrackPaths.push(that.settings['tracks'][elmt]);
+      thisObj.audioTrackTitles.push(elmt);
+      thisObj.audioTrackPaths.push(thisObj.settings['tracks'][elmt]);
     });
+
+    if(this.settings['configs']['startingTrack'] != undefined)
+      this.currentAudioTrackTitle = this.audioTrackTitles[this.settings['configs']['startingTrack'] - 1];
+    else
+      this.currentAudioTrackTitle = this.audioTrackTitles[0];
+
+    this.setSource();
 
     if(this.settings['configs']['autoplay'] === true)
       this.play();
 
-    if(this.settings['configs']['startingTrack'] != undefined)
-    {
-      var finalNum = this.settings['configs']['startingTrack'] - 1;
-      this.currentAudioTrackTitle = this.audioTrackTitles[finalNum];
-    }
-    else
-      this.currentAudioTrackTitle = this.audioTrackTitles[0];
-
     $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
 
-    //console.log(this);
-    // this.audioTrack['playbackRate'] = 1;
     // HTMLMediaElement Class reference for properties and events of the Audio Element http://goo.gl/FpSCA
+  }
+
+  private setSource(){
+    var counterNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
+    var songPathCounter = counterNum - 1;
+    this.audioTrack['src'] = this.audioTrackPaths[songPathCounter.toString()] + this.codec;
   }
 
   private buildBoomboxDOM(){
@@ -100,17 +103,31 @@ class Boombox{
       'LoopBtn'       : 'Loop'
     };
 
-    var that = this;
+    var thisObj = this;
     var ElmntMapKeys = Object.keys(ElmntMap);
     $(ElmntMapKeys).each(function(inx,elent){
       var tmpEl = document.createElement('button');
       tmpEl.setAttribute('class','boombox' + elent);
       tmpEl.innerText = ElmntMap[elent];
-      $('#' + that.settings['configs']['container']).append(tmpEl);
+      $('#' + thisObj.settings['configs']['container']).append(tmpEl);
     });
+
+    var currentTimeRangeWrapper = $('<div></div>').addClass('crntTime');
+    var currentTimeRangeDesc = $('<span class="currentTime"></span>').text('Current Time: 0');
+    var currentTimesliderInput = $('<input>').attr('type','range').attr('min','0').attr('step','.1').val('0').addClass('boomboxCurrentTime');
+    $(currentTimeRangeWrapper).append(currentTimeRangeDesc);
+    $(currentTimeRangeWrapper).append(currentTimesliderInput);
+    $('#' + this.settings['configs']['container']).append(currentTimeRangeWrapper);
+
+    var pbRateRangeWrapper = $('<div></div>');
+    var pbRateRangeDesc = $('<span class="pbRate"></span>').text('Playback Rate: 1');
+    var pbRatesliderInput = $('<input>').attr('type','range').attr('min','.5').attr('max','1').attr('step','.1').val('1').addClass('boomboxPlaybackRate');
+    $(pbRateRangeWrapper).append(pbRateRangeDesc);
+    $(pbRateRangeWrapper).append(pbRatesliderInput);
+    $('#' + this.settings['configs']['container']).append(pbRateRangeWrapper);
   }
 
-  private attachEventListeners(ctx){
+  private attachEventListeners(){
     var map = {
       'PlayBtn'       : 'play',
       'PauseBtn'      : 'pause',
@@ -122,27 +139,50 @@ class Boombox{
       'LoopBtn'       : 'loop'
     };
 
+    var thisObj = this;
     var mapKeys = Object.keys(map);
     $(mapKeys).each(function(indx,elmnt){
-      $('#' + ctx.settings.configs.container + ' .boombox' + elmnt).each(function(inx,el){
+      $('#' + thisObj.settings['configs']['container'] + ' .boombox' + elmnt).each(function(inx,el){
         $(el).click(function(evnt){
           if(elmnt == 'MuteBtn' || elmnt == 'LoopBtn')
-            ctx[map[elmnt]](evnt.srcElement);  
+            thisObj[map[elmnt]](evnt.srcElement);  
           else
-            ctx[map[elmnt]]();  
+            thisObj[map[elmnt]]();  
         });
       });
+    });
+    var crntTmRngInput = $('#' + thisObj.settings['configs']['container'] + ' .boomboxCurrentTime')[0];
+    $(crntTmRngInput).change(function(et){
+      thisObj.audioTrack['currentTime'] = et.srcElement.value;
+      var spanEl = $('#' + thisObj.settings['configs']['container'] + ' .currentTime')[0]
+      $(spanEl).text('Current Time: ' + et.srcElement.value);
+    });
+
+    var plybkRangeInput = $('#' + thisObj.settings['configs']['container'] + ' .boomboxPlaybackRate')[0];
+    $(plybkRangeInput).change(function(evnt){
+      thisObj.audioTrack['playbackRate'] = evnt.srcElement.value;
+      var spanEl = $('#' + thisObj.settings['configs']['container'] + ' .pbRate')[0]
+      $(spanEl).text('Playback Rate: ' + evnt.srcElement.value);
+    });
+
+    $(thisObj.audioTrack).bind('timeupdate',function(evt){
+      $('#' + thisObj.settings['configs']['container'] + ' .boomboxCurrentTime').attr('value',evt.srcElement.currentTime);
+      var roundedCrntTime = Math.round(evt.srcElement.currentTime * 10) / 10;
+      var splitCrntTime = roundedCrntTime.toString().split('.');
+      var spanEl = $('#' + thisObj.settings['configs']['container'] + ' .currentTime')[0]
+      if(parseInt(splitCrntTime[1],10) >= 5)
+        $(spanEl).text('Current Time: ' + Math.ceil(evt.srcElement.currentTime));
+      else if(parseInt(splitCrntTime[1],10) <= 4)
+        $(spanEl).text('Current Time: ' + Math.floor(evt.srcElement.currentTime));
+
     });
   }
 
   public play(){
+    $('#' + this.settings['configs']['container'] + ' .boomboxCurrentTime').attr('max',this.audioTrack['duration']);
+
     if (this.currentTime === 0)
-    {
-      var counterNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10);
-      var songPathCounter = counterNum - 1;
-      this.audioTrack['src'] = this.audioTrackPaths[songPathCounter.toString()] + this.codec;
       this.audioTrack['play']();
-    } 
     else 
     {
       this.audioTrack['currentTime'] = this.currentTime;
@@ -194,6 +234,10 @@ class Boombox{
 
       $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
     }
+
+    $('#' + this.settings['configs']['container'] + ' .currentTime').text('Current Time: 0');
+    $('#' + this.settings['configs']['container'] + ' .boomboxCurrentTime').val('0');
+    this.setSource();
   }
 
   public volumeDown(){
@@ -235,7 +279,7 @@ class Boombox{
     }
   }
 
-  public loop(srcElmnt?:Object){
+  public loop(srcElmnt:Object){
     if(this.audioTrack['loop'] == true)
     {
       this.audioTrack['loop'] = false;
