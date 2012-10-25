@@ -123,7 +123,7 @@ var Boombox = (function () {
             var spanEl = $('#' + thisObj.settings['configs']['container'] + ' .pbRate')[0];
             $(spanEl).text('Playback Rate: ' + evnt.srcElement.value);
         });
-        $(thisObj.audioTrack).bind('timeupdate', function (evt) {
+        $(this.audioTrack).bind('timeupdate', function (evt) {
             $('#' + thisObj.settings['configs']['container'] + ' .boomboxCurrentTime').attr('value', evt.srcElement.currentTime);
             var roundedCrntTime = Math.round(evt.srcElement.currentTime * 10) / 10;
             var splitCrntTime = roundedCrntTime.toString().split('.');
@@ -134,6 +134,12 @@ var Boombox = (function () {
                 if(parseInt(splitCrntTime[1], 10) <= 4) {
                     $(spanEl).text('Current Time: ' + Math.floor(evt.srcElement.currentTime));
                 }
+            }
+        });
+        var eventKeys = Object.keys(this.settings.configs.events);
+        eventKeys.forEach(function (el, inx) {
+            if(el != 'eventObj') {
+                $(thisObj.audioTrack).bind(el, thisObj.settings.configs.events.eventObj[thisObj.settings.configs.events[el]]);
             }
         });
     };

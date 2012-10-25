@@ -66,6 +66,8 @@ class Boombox{
 
     $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.currentAudioTrackTitle);
 
+    //console.dir(this.audioTrack);
+
     // HTMLMediaElement Class reference for properties and events of the Audio Element http://goo.gl/FpSCA
   }
 
@@ -165,7 +167,7 @@ class Boombox{
       $(spanEl).text('Playback Rate: ' + evnt.srcElement.value);
     });
 
-    $(thisObj.audioTrack).bind('timeupdate',function(evt){
+    $(this.audioTrack).bind('timeupdate',function(evt){
       $('#' + thisObj.settings['configs']['container'] + ' .boomboxCurrentTime').attr('value',evt.srcElement.currentTime);
       var roundedCrntTime = Math.round(evt.srcElement.currentTime * 10) / 10;
       var splitCrntTime = roundedCrntTime.toString().split('.');
@@ -174,7 +176,12 @@ class Boombox{
         $(spanEl).text('Current Time: ' + Math.ceil(evt.srcElement.currentTime));
       else if(parseInt(splitCrntTime[1],10) <= 4)
         $(spanEl).text('Current Time: ' + Math.floor(evt.srcElement.currentTime));
+    });
 
+    var eventKeys = Object.keys(this.settings.configs.events);
+    eventKeys.forEach(function(el,inx){
+      if(el != 'eventObj')
+        $(thisObj.audioTrack).bind(el, thisObj.settings.configs.events.eventObj[thisObj.settings.configs.events[el]]);
     });
   }
 
