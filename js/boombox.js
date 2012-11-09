@@ -180,28 +180,28 @@ var Boombox = (function () {
         }
         this.pause();
         this.currentTime = 0;
-        var beforeValue = document.querySelectorAll('#' + this.settings['configs']['container'] + ' .boomboxCounter')[0].innerText;
+        var beforeValue = document.querySelectorAll('#' + this.settings['configs']['container'] + ' .boomboxCounter')[0]['innerText'];
         if(direction == 'previous') {
             var afterValue = parseInt(beforeValue, 10) - 1;
             if(afterValue <= 1) {
                 afterValue = 1;
             }
-            $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
+            document.querySelectorAll('#' + this.settings['configs']['container'] + ' .boomboxCounter')[0]['innerText'] = afterValue.toString();
             var trackNum = parseInt($('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(), 10) - 1;
-            $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
+            document.querySelectorAll('#' + this.settings['configs']['container'] + ' .boomboxTrackName')[0]['innerText'] = this.audioTrackTitles[trackNum];
         } else {
             if(direction == 'next') {
                 var afterValue = parseInt(beforeValue, 10) + 1;
                 var counter = this.audioTrackPaths.length;
-                var trackNum = $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text();
-                $('#' + this.settings['configs']['container'] + ' .boomboxTrackName').text(this.audioTrackTitles[trackNum]);
+                var trackNum = document.querySelectorAll('#' + this.settings['configs']['container'] + ' .boomboxCounter')[0]['innerText'];
+                document.querySelectorAll('#' + this.settings['configs']['container'] + ' .boomboxTrackName')[0]['innerText'] = this.audioTrackTitles[trackNum];
                 if(afterValue >= counter) {
                     afterValue = counter;
                 }
-                $('#' + this.settings['configs']['container'] + ' .boomboxCounter').text(afterValue.toString());
+                document.querySelectorAll('#' + this.settings['configs']['container'] + ' .boomboxCounter')[0]['innerText'] = afterValue.toString();
             }
         }
-        $('#' + this.settings['configs']['container'] + ' .currentTime').text('Current Time: 0');
+        document.querySelectorAll('#' + this.settings['configs']['container'] + ' .currentTime')[0]['innerText'] = 'Current Time: 0';
         $('#' + this.settings['configs']['container'] + ' .boomboxCurrentTime').val('0');
         this.setSource();
     };
@@ -232,22 +232,22 @@ var Boombox = (function () {
     Boombox.prototype.mute = function (srcElmnt) {
         if(this.audioTrack['muted'] == true) {
             this.audioTrack['muted'] = false;
-            $(srcElmnt).text('Mute');
+            srcElmnt['innerText'] = 'Mute';
         } else {
             if(this.audioTrack['muted'] == false) {
                 this.audioTrack['muted'] = true;
-                $(srcElmnt).text('Unmute');
+                srcElmnt['innerText'] = 'Unmute';
             }
         }
     };
     Boombox.prototype.loop = function (srcElmnt) {
         if(this.audioTrack['loop'] == true) {
             this.audioTrack['loop'] = false;
-            $(srcElmnt).css('color', 'black');
+            srcElmnt['style'].color = 'black';
         } else {
             if(this.audioTrack['loop'] == false) {
                 this.audioTrack['loop'] = true;
-                $(srcElmnt).css('color', 'red');
+                srcElmnt['style'].color = 'red';
             }
         }
     };
