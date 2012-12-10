@@ -3,28 +3,48 @@
   <head>
     <meta charset='utf8'>
     <title>Boombox.js</title>
+    <link src='https://audiofile.cc/css/reset.css' type='text/css'>
     <script src="./js/jquery.js"></script> 
     <script src="./js/boombox.js"></script> 
+    <script src="./js/EventObject.js"></script> 
     <script>
         $(document).ready(function() {
+          var eventObject = new EventObject(); 
           new Boombox({
             tracks : {
-              'Blasting Laser Fire' : './music/BlastingLaserFire',
-              'Ultra Drop' : './music/UltraDrop'
+              'Grace'           : 'http://cardonadesigns.com/html5/audio/grace',
+              'All is Illusion' : 'http://cardonadesigns.com/html5/audio/all-is-illusion'
             },
             configs : {
-              container : '#boombox',
-              autoplay : false 
-            }
-          });
-          new Boombox({
-            tracks : {
-              'Blaing ser Fire' : './music/BlastingLaserFire',
-              'Ultra Dr' : './music/UltraDrop'
-            },
-            configs : {
-              container : '#boombox2',
-              autoplay : false 
+              autoplay              : false,
+              buildBoombox          : true,
+              container             : 'boombox',
+              events                : {
+                'abort'          :'onAbort',
+                'canplay'        :'onCanPlay',
+                'canplaythrough' :'onCanPlayThrough',
+                'durationchange' :'onDurationChange',
+                'emptied'        :'onEmptied',
+                'ended'          :'onEnded',
+                'error'          :'onError',
+                'loadeddata'     :'onLoadedData',
+                'loadedmetadata' :'onLoadedMetaData',
+                'loadstart'      :'onLoadStart',
+                'pause'          :'onPause',
+                'play'           :'onPlay',
+                'playing'        :'onPlaying',
+                'progress'       :'onProgress',
+                'ratechange'     :'onRateChange',
+                'seeked'         :'onSeeked',
+                'seeking'        :'onSeeking',
+                'stalled'        :'onStalled',
+                'suspend'        :'onSuspend',
+                'timeupdate'     :'onTimeUpdate',
+                'volumechange'   :'onVolumeChange',
+                'waiting'        :'onWaiting',
+                'eventObj'       : eventObject
+              },
+              startingTrack         : 1
             }
           });
         });
@@ -32,22 +52,6 @@
   </head>
   <body>
     <div id="boombox"> 
-      <div><span class="boomboxCounter">1</span> <span class="boomboxTrackName"></span></div> 
-      <button class="boomboxPlayBtn slick-black boombox">Play</button> 
-      <button class="boomboxPauseBtn slick-black boombox">Pause</button> 
-      <button class="boomboxPreviousBtn slick-black boombox">Previous</button> 
-      <button class="boomboxNextBtn slick-black boombox">Next</button> 
-      <button class="boomboxVolumeDownBtn slick-black boombox">Volume Down</button> 
-      <button class="boomboxVolumeUpBtn slick-black boombox">Volume Up</button> 
-    </div> 
-    <div id="boombox2"> 
-      <div><span class="boomboxCounter">1</span> <span class="boomboxTrackName"></span></div> 
-      <button class="boomboxPlayBtn slick-black boombox">Play</button> 
-      <button class="boomboxPauseBtn slick-black boombox">Pause</button> 
-      <button class="boomboxPreviousBtn slick-black boombox">Previous</button> 
-      <button class="boomboxNextBtn slick-black boombox">Next</button> 
-      <button class="boomboxVolumeDownBtn slick-black boombox">Volume Down</button> 
-      <button class="boomboxVolumeUpBtn slick-black boombox">Volume Up</button> 
     </div> 
   </body>
 </html>
